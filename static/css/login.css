@@ -1,0 +1,57 @@
+/* -------------HOVER CLASSES--------------- */
+form>p:hover{
+    color: var(--hoverBorder);
+}
+
+form>input:hover{
+    border: 2px solid var(--hoverBorder);
+}
+form>input:focus{
+    border: 2px solid var(--buttonColor);
+}
+
+.submit-btn:hover{
+    border: 2px solid var(--hoverBorder);
+    filter: brightness(0.9);
+    color: var(--hoverBorder);
+    background-color: white;
+}
+
+
+/* -------------ROOT--------------- */
+.root{
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* -------------lOGIN FORM--------------- */
+form{
+    width: 30vw;
+    height: 45vh;
+}
+
+form>p{
+    font-size:1.5rem;
+    cursor: default;
+    text-align: center;
+    color: var(--borderColor);
+    font-weight: 700; 
+}
+
+form>input{
+    display: block;
+    border: 2px solid var(--borderColor);
+    outline: none;
+    height: 5vh;
+    width: 30vw;
+    margin-top: 30px;
+}
+
+.submit-btn{
+    border: none;
+    color: white;
+    background-color: var(--buttonColor);
+}

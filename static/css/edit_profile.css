@@ -1,0 +1,80 @@
+/* --------------------HOVER, FOCUS CLASSES------------ */
+form>input:hover, .profile-pic-label:hover{
+    border: 2px solid var(--hoverBorder);
+}
+form>input:focus, .profile-pic-label:focus{
+    border: 2px solid var(--buttonColor); 
+}
+
+.user-profile-pic:hover{
+    border: 2px solid var(--buttonColor);
+    filter: brightness(0.9);
+}
+.submit-btn:hover{
+    background-color: white;
+    color: var(--hoverBorder);
+    filter: brightness(0.9);
+}
+
+/* -----------------ROOT---------------- */
+.root{
+    display: flex;
+    justify-content: space-between;
+
+}
+/* -----------------EDIT FORM---------------- */
+form{
+    width: 50vw;
+    height: 80vh;
+    margin-left: 20px;
+}
+
+form>p{
+    margin-top: 20px;
+    font-size: larger;
+    font-weight: 800;
+}
+
+ hr{
+    margin-top: 50px;
+}
+
+form>input{
+    width: 48vw;
+    height: 5vh;
+    display: block;
+    margin-bottom: 10px;
+    outline: none;
+    border: 2px solid var(--borderColor);
+    font-size: 1.050rem;
+}
+
+form> label{
+    font-size: 1.2rem;
+}
+.profile-pic-label{
+    height: 5vh;
+    margin-bottom: 10px;
+    border: 2px solid var(--borderColor);
+    display: block;
+    text-align: center;
+    width: 48vw;
+
+}
+
+.submit-btn{
+    border: none;
+    color: white;
+    background-color: var(--buttonColor);
+
+}
+
+/* --------------------PROFILE PIC---------- */
+.user-profile-pic{
+    border: 2px solid var(--borderColor);
+    height: 70vh;
+    width: 30vw;
+    margin-top: 50px;
+    margin-right: 30px;
+    border-radius: 5px;
+}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% comment %} block for static files {% endcomment %}
+{% block static %}
+
+<!-- for title -->
+{% block title %}
+<title> THE MM </title>
+{% endblock title %}
+
+<!-- for static -->
+{% load static %}
+    <link rel="stylesheet" href="{% static "/css/home.css" %}">
+    <script src="{% static "/js/home.js" %}" defer ></script>
+
+{% endblock static %}
+
+
+
+
+{% block content %}
+<div class="root">
+<aside class="aside-section" >
+    <h2>Categories</h2>
+    <ul class="categories categories-hover" >
+        <li value="cars" >Cars</li>
+        <li value="mobile phones" >Mobile Phones</li>
+        <li value="electronics" >Electronics</li>
+        <li value="furniture" >Furniture</li>
+        <li value="others" >Others</li>
+    </ul>
+    <div class="divider"></div>
+</aside>
+
+<main class="main-container">
+    <div class="search-container">
+        <div class="inner-div">
+            <input type="text"  id="" class="item-search">
+            <img src="{% static "/images/icons/search-white.png" %}" class="search-icon" alt="">
+        </div>
+    </div>
+
+    <div class="items-container">
+
+    </div>
+    
+
+    
+    
+    
+</main>
+
+
+</div>
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

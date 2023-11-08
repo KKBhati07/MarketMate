@@ -1,0 +1,219 @@
+.root {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+}
+
+
+/* -----------HOVER CLASSES------------- */
+.user-container:hover {
+    border: 2px solid var(--hoverBorder);
+}
+
+.user-container:hover p {
+    color: var(--hoverBorder);
+}
+
+.listing-container:hover {
+    border: 2px solid var(--hoverBorder);
+
+}
+
+.listing-container:hover .item-title {
+    color: var(--hoverBorder);
+}
+
+
+.listing-container>img:hover {
+    scale: 1.1;
+}
+
+.add-btn:hover {
+    background-color: white;
+    filter: brightness(0.9);
+    border: 2px solid var(--hoverBorder);
+}
+
+.add-btn:hover>p {
+    color: var(--hoverBorder);
+}
+
+
+/* -------------ASIDE SECTION------------ */
+
+.aside-section {
+    padding-top: 10vh;
+    position: relative;
+    width: 25vw;
+    height: 100%;
+}
+
+.is-active {
+    background-color: var(--buttonColor);
+    color: white;
+}
+
+.menu-list {
+    width: 100%;
+    height: 8vh;
+    border-bottom: solid 2px var(--borderColor);
+    border-top: solid 2px var(--borderColor);
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+.logout {
+    position: absolute;
+    bottom: 5vh;
+}
+
+.divider {
+    width: 0;
+    height: 80vh;
+    border-right: 2px solid var(--borderColor);
+    right: 0;
+    top: 5vh;
+    position: absolute;
+}
+
+/* -------------MAIN SECTION--------------- */
+
+.main-container {
+    position: relative;
+    width: 75vw;
+    height: 100%;
+    padding: 50px;
+    overflow: scroll;
+}
+
+/* ---------FOR USER-------- */
+
+.user-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    height: 10vh;
+    width: 50vw;
+    border: solid 2px var(--borderColor);
+
+}
+
+.user-container>p {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.user-container>img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* add user btn */
+.add-btn {
+    width: 120px;
+    height: 50px;
+    border: 2px solid var(--borderColor);
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: block;
+    align-items: center;
+    background-color: var(--buttonColor);
+
+}
+
+.add-btn>p {
+    cursor: pointer;
+    position: relative;
+    top: 25%;
+    font-weight: 600;
+    left: 20%;
+    color: white;
+}
+
+/* ------FOR LISTINGS------- */
+.listing-container {
+    margin-top: 10px;
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 17vh;
+    width: 50vw;
+    border: solid 2px var(--borderColor);
+}
+
+.listing-container>div {
+    width: 50vw;
+    height: 10vh;
+}
+
+.listing-container>img {
+    width: 40px;
+    cursor: pointer;
+    height: 40px;
+    transition: all 0.3s ease-in-out;
+    margin-right: 10px;
+}
+
+.item-title {
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+
+/* -------------------DELETE USER POPUP----------- */
+.delete-popup-container {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+}
+
+.delete-popup {
+    background-color: var(--buttonColor);
+    padding: 10px;
+    border: 2px solid white;
+    width: 25vw;
+    height: 25vh;
+    position: relative;
+
+}
+
+.delete-popup>p {
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 800;
+}
+
+.yes-no-container {
+    padding: 5px;
+
+    position: absolute;
+    bottom: 10px;
+    width: 90%;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to right, red, grey);
+}
+
+.yes-no-container>p {
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+}

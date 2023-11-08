@@ -1,0 +1,135 @@
+/* ----------HOVER CLASSES-------- */
+
+.item-container:hover >p{
+    color: var(--hoverBorder);
+}
+
+.item-container:hover img, .item-container:hover{
+    border: 2px solid var(--hoverBorder);
+}
+
+.item-container>img:hover{
+    filter: brightness(0.9);  
+}
+
+.profile>a:hover{
+    border: 2px solid var(--buttonColor);
+    background-color: white;
+    color: var(--buttonColor);
+    filter: brightness(0.9);
+}
+
+.profile>img:hover{
+    border: 2px solid var(--hoverBorder);
+}
+/* -----------ROOT-------------- */
+.root{
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+}
+
+/* ---------ASIDE SECTION----------- */
+.aside-section{
+    width: 30vw;
+    position: relative;
+    height: 90vh;
+}
+
+.profile{
+    margin-top: 30vh;
+    width: 30vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile>img{
+    height: 100px;
+    width: 100px;
+    border: 2px solid var(--borderColor);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.profile>h2{
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+.profile>a{
+    margin-top: 20px;
+    width: 20vw;
+    height: 40px;
+    text-decoration: none;
+    color: white;
+    background-color: var(--buttonColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divider{
+    width: 0;
+    height: 80vh;
+    position: absolute;
+    top: 5vh;
+    right: 0;
+    border-right: 2px solid var(--borderColor);
+}
+
+
+
+/* -------------MAIN SECTION------------ */
+
+.main-container{
+    width: 70vw;
+    height: 90vh;
+    padding: 5vh;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: scroll;
+}
+
+.nothing-to-show-label{
+    border: 2px solid var(--borderColor);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.nothing-to-show-label>p{
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+/* items */
+.item-container{
+    border: 2px solid black;
+    border: 2px solid var(--borderColor);
+    width: 25vw;
+    margin: 7vh;
+    height: 50vh;
+    padding: 1vw;
+    
+}
+.item-container>img{
+    border: 2px solid black;
+    border: 2px solid var(--borderColor);
+    width: 23vw;
+    height: 35vh;
+}
+.title{
+    color: rgb(90, 90, 90) ;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+.price{
+    color: rgb(90, 90, 90) ;
+    font-weight: 800;
+    font-size: 1.5rem;
+}

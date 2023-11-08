@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            font-family: Consolas;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            height: 300px;
+            display: flex;
+            max-width: 600px;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .button {
+
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            border: 2px solid white;
+            border-radius: 3px;
+            background-color: rgb(68, 115, 177);
+            border-radius: 3px;
+        }
+
+        .button>a {
+
+            text-decoration: none;
+            color: white;
+            overflow: hidden;
+
+        }
+
+        .button:hover {
+            border: 2px solid rgb(1, 71, 163);
+            filter: brightness(0.9);
+            background-color: white;
+
+        }
+
+        .button:hover>a {
+            color: rgb(1, 71, 163);
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>Hello {{user}}!</h1>
+        <p>Click on the link to verify and create account</p>
+
+        <div class="button">
+
+            <a href="{{verification_url}}">Click here to continue!</a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
