@@ -34,6 +34,10 @@ from marketmate.mailer import send_verification_mail
 
 from functools import wraps
 
+#importing GCS config functions
+from marketmate.gcs_config import upload_file,generate_signed_url
+
+
 # decorator to check if user is already logged in
 def is_authenticated(redirect_url):
     def decorator(view_method):
@@ -69,7 +73,7 @@ class CreateUserView(TemplateView):
         try:
             user_token= Verification.objects.get(token=token)
             # to expire the generated token after 30 minutes
-            if user_token.created_at+timedelta(minutes=30)<datetime.now():
+            if user_token.created_at+timedelta(minutes=300)<datetime.now():
                 user_token.delete()
                 messages.error(req,message="Token Expired")
                 return redirect(redirect_to=reverse_lazy("user_signup"))
@@ -109,7 +113,7 @@ class EditProfileView(TemplateView):
     template_name="users/edit_profile"
 
 class UserView(View):
-    # -------------------POST----------------------
+    # ---------------POST-------------------
     # to handle the User's post requests
     def post(self,req:HttpRequest, token:Any=None)->HttpResponse:
         if "create-session" in req.path:
@@ -187,7 +191,6 @@ class UserView(View):
             return redirect(redirect_to=reverse_lazy("user_signup"))
     
 
-
     # to create a session with the user
     def create_session(self,req:HttpRequest)->HttpResponse:
         try:
@@ -206,29 +209,46 @@ class UserView(View):
     
     # to update users info
     @method_decorator(login_required(login_url=reverse_lazy("user_login")))
-    def update_user(self,req:HttpRequest)->HttpResponse:
+    def update_user(self, req: HttpRequest) -> HttpResponse:
         try:
-            form=ProfileUpdateForm(data=req.POST,user_instance=req.user,files=req.FILES)
-            # if form data is valid
+            form = ProfileUpdateForm(data=req.POST, user_instance=req.user, files=req.FILES)
+            
             if form.is_valid():
-                email=form.cleaned_data["email"]
+                # Save form data without committing to the database
+                user_instance = req.user
+                
+                email = form.cleaned_data["email"]
                 if User.objects.filter(email=email).exclude(id=req.user.id).exists():
-                    messages.error(request=req,message="Email already in use")
-                    return redirect(redirect_to=reverse_lazy("user_edit_profile"))
+                    messages.error(request=req, message="Email already in use")
+                    return redirect(reverse_lazy("user_edit_profile"))
 
                 if form.cleaned_data["contact_no"] and not form.cleaned_data["contact_no"].isdigit():
-                    messages.error(request=req,message="Contact number should contain numbers only!")
-                    return redirect(redirect_to=reverse_lazy("user_edit_profile"))
-                    # saving the updated data
-                form.save()
-                messages.success(request=req,message="Profile updated successfully!")
-                return redirect(redirect_to=reverse_lazy("user_profile"))
+                    messages.error(request=req, message="Contact number should contain numbers only!")
+                    return redirect(reverse_lazy("user_edit_profile"))
 
-            messages.error(request=req,message="Unable to Update profile!")
-            return redirect(redirect_to=reverse_lazy("user_edit_profile"))
+                # Handle profile picture upload and store GCS URL in model
+                uploaded_file = req.FILES.get('profile_picture')
+                if uploaded_file:
+                    # Read the file content from the InMemoryUploadedFile
+                    file_content = uploaded_file.read()
+
+                    # Upload the file content to GCS directly
+                    upload_result = upload_file(file_content, f"profile_pictures/{req.user.id}")
+                    gcs_url = upload_result.get("obj").public_url
+
+                    user_instance.profile_picture = gcs_url
+
+                    # Save the updated data to the database
+                    user_instance.save()
+                messages.success(request=req, message="Profile updated successfully!")
+                return redirect(reverse_lazy("user_profile"))
+
+            messages.error(request=req, message="Unable to update profile!")
+            return redirect(reverse_lazy("user_edit_profile"))
+
         except Exception as e:
-            messages.error(request=req,message="Internal server error!")
-            return redirect(redirect_to=reverse_lazy("user_edit_profile"))
+            messages.error(request=req, message="Internal server error!")
+            return redirect(reverse_lazy("user_edit_profile"))
 
 
     #  for user profile page   
@@ -265,10 +285,11 @@ class UserView(View):
                 data={}
                 for listing in listings:
                     image=ListingImages.objects.filter(item_id=listing).first()
+                    image.image=generate_signed_url(image.image)
                     data[listing]=image
                 return render(req,"users/profile.html",{"listings":data})
             except Exception as e:
-                messages.error(request=req,message="Something went wrong!")
+                messages.error(request=req,message="Internal server error!")
                 return redirect(redirect_to=reverse_lazy("home"))
         # if the user is opening others profile page
         else:
@@ -278,6 +299,7 @@ class UserView(View):
                 data={}
                 for listing in listings:
                     image=ListingImages.objects.filter(item_id=listing).first()
+                    image.image=generate_signed_url(image.image)
                     data[listing]=image
                 return render(req,"users/profile.html",{"listings":data,"profile_user":user})
             # if user not found
@@ -286,7 +308,7 @@ class UserView(View):
                 return redirect(redirect_to=reverse_lazy("home"))
             # if something else goes wrong
             except Exception as e:
-                messages.error(request=req,message="Something went wrong!")
+                messages.error(request=req,message="Internal server error!")
                 return redirect(redirect_to=reverse_lazy("home"))
 
     # get edit profile page
@@ -300,6 +322,5 @@ class UserView(View):
             return render(req,"users/edit_profile.html",{"form":form})
         # if something goes wrong
         except Exception as e:
-            print(e)
             messages.error(request=req,message="Something went wrong!")
             return redirect(reverse_lazy("user_profile"))

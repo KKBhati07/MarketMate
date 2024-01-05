@@ -32,8 +32,9 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 
 from django.urls import reverse_lazy
-from django.contrib.auth.decorators import user_passes_test
 from functools import wraps
+
+from marketmate.gcs_config import generate_signed_url,upload_file,delete_file
 
 def is_admin(redirect_url):
     def decorator(view_method):
@@ -53,7 +54,6 @@ def is_admin(redirect_url):
 
 class Authentication:
     def is_ajax(req):
-        # print(req.headers)
         return req.headers.get('x-requested-with') == 'XMLHttpRequest'
 
 
@@ -61,20 +61,13 @@ class Authentication:
 class AdminView(View):
     @is_admin(redirect_url="admin_login_page")
     def get(self,req:HttpRequest)->HttpResponse:
-        return render(req,"admin/home.html")
+        return render(req,"admin/home.html")    
         
 
 
 # view for admin login page
 class AdminLoginView(View):
-    # template_name="admin/admin_login.html"
-    # form=AdminLoginForm()
 
-    # # adding form with the context to render ot on template
-    # def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-    #     context= super().get_context_data(**kwargs)
-    #     context["loginForm"]=self.form
-    #     return context
     def get(self,req:HttpRequest)->HttpResponse:
         if req.user.is_authenticated and req.user.is_superuser:
             return redirect(redirect_to=reverse_lazy("admin_home"))
@@ -98,7 +91,6 @@ class AdminLoginView(View):
             messages.success(request=req,message="Logged in as admin!")
             return redirect(reverse_lazy("admin_home"))
         except Exception as e:
-            print(e)
             messages.error(req,message="Internal server error, please try again!")
             return redirect(reverse_lazy("home"))
             
@@ -113,7 +105,6 @@ class AdminUsersView(View):
     
     @is_admin(redirect_url="admin_login_page")
     def get(self,req,id:Any=None)->Union[JsonResponse,HttpResponse]:
-            # query=req.GET.get("all")
         if "admin/users/fetch/" in req.path and not id:
             if Authentication.is_ajax(req):
                 return self.get_users_xhr(req)
@@ -139,22 +130,22 @@ class AdminUsersView(View):
 
     def get_users_xhr(self,req)->JsonResponse:
         try:
-            print(req.user)
             users=User.objects.all()
             serializer=FetchUserSerializer(users,many=True)
             return JsonResponse({"users":serializer.data,"message":"Users fetched successfully!"},status=200)
         except Exception as e:
-            print(e)
             return JsonResponse({"message":"Internal server error!"},status=500)
     
     def get_user_page(self,req:HttpRequest,id:Any)->HttpResponse:
         try:
             user=User.objects.get(id=id)
+            if user.profile_picture:
+                user.profile_picture=generate_signed_url(user.profile_picture,True)
             listings=Listing.objects.filter(user_id=user)
-                # print(listings)
             data={}
             for listing in listings:
                 image=ListingImages.objects.filter(item_id=listing).first()
+                image.image=generate_signed_url(image.image)
                 data[listing]=image
             return render(request=req,template_name="admin/user.html",context={"user":user,"listings":data})
 
@@ -164,14 +155,13 @@ class AdminUsersView(View):
             return redirect(redirect_to=reverse_lazy("admin_home"))  
           
         except Exception as e:
-            print(e)
             messages.error(request=req,message="Internal server error!")
             return redirect(redirect_to=reverse_lazy("admin_home"))
     
     def delete_user_xhr(self,req,id:Any)->JsonResponse:
         try:
             user=User.objects.get(id=id)
-            print(user)
+            self.delete_listings(user)
             user.delete()
             return JsonResponse({"id":user.id,"message":"User deleted successfully!"})
         except User.DoesNotExist:
@@ -182,7 +172,7 @@ class AdminUsersView(View):
     def delete_user(self,req:HttpRequest,id:Any)->HttpResponse:
         try:
             user=User.objects.get(id=id)
-            print(user)
+            self.delete_listings(user)
             user.delete()
             messages.success(req,message="User deleted successfully!")
             return redirect(redirect_to=reverse_lazy("admin_home"))
@@ -193,6 +183,19 @@ class AdminUsersView(View):
         except Exception as e:
             messages.error(req,message="Internal server error!")
             return redirect(redirect_to=reverse_lazy("admin_home"))
+    
+    def delete_listings(self,user:User)->bool:
+        try:
+            listings=Listing.objects.filter(user_id=user)
+            for listing in listings:
+                images=ListingImages.objects.filter(item_id=listing)
+                for image in images:
+                    delete_file(image.image)
+                    image.delete()
+                listing.delete()
+            return True
+        except:
+            return False
             
     def edit_user_page(self,req:HttpRequest,id:Any)->HttpResponse:
         try:
@@ -202,12 +205,13 @@ class AdminUsersView(View):
                 "email": user.email,
                 "contact_no": user.contact_no,
             })
+            if user.profile_picture:
+                user.profile_picture=generate_signed_url(user.profile_picture,True)
             return render(req,"admin/edit_user.html",{"form":form, "user":user})
         except User.DoesNotExist:
             messages.error(request=req,message="User not found!")
             return redirect(redirect_to=reverse_lazy("admin_home"))
         except Exception as e:
-            print(e)
             messages.error(request=req,message="Internal server error!")
             return redirect(redirect_to=reverse_lazy("admin_home"))
 
@@ -239,13 +243,11 @@ class AdminUsersView(View):
                 _user=User.objects.filter(email=email).first()
                 # if the user already exists
                 if _user:
-                    print("Mail already registered with!")
                     messages.error(request=req,message=f"Email already registered with {_user.name}")
                     return redirect(reverse_lazy("admin_create_user"))
                 
                 # if not, creating new user
                 if password!=confirm_password:
-                    print("Password does not match!")
                     messages.error(request=req,message="Passwords do not match!")
                     return redirect(reverse_lazy("admin_create_user"))
 
@@ -264,7 +266,6 @@ class AdminUsersView(View):
                 return redirect(reverse_lazy("admin_create_user"))
 
         except Exception as e:
-            print(e)
             messages.error(request=req,message="Internal server error!")
             return redirect(reverse_lazy("admin_home"))
         
@@ -282,6 +283,19 @@ class AdminUsersView(View):
                 if form.cleaned_data["contact_no"] and not form.cleaned_data["contact_no"].isdigit():
                     messages.error(request=req,message="Contact number should contain numbers only!")
                     return redirect(redirect_to=reverse_lazy("admin_user_edit_page",kwargs={"id":id}))
+                # Handle profile picture upload and store GCS URL in model
+                uploaded_file = req.FILES.get('profile_picture')
+                if uploaded_file:
+                    # Read the file content from the InMemoryUploadedFile
+                    file_content = uploaded_file.read()
+
+                    # Upload the file content to GCS directly
+                    upload_result = upload_file(file_content, f"profile_pictures/{req.user.id}")
+                    gcs_url = upload_result.get("obj").public_url
+                    user.profile_picture = gcs_url
+
+                    # Save the updated data to the database
+                    user.save()
                 form.save()
                 messages.success(request=req,message="Profile updated successfully!")
                 return redirect(redirect_to=reverse_lazy("admin_user_edit_page",kwargs={"id":id}))
@@ -292,7 +306,6 @@ class AdminUsersView(View):
         except User.DoesNotExist:
             messages.error(req,message="User not found")
         except Exception as e:
-            print(e)
             messages.error(request=req,message="Internal server error!")
             return redirect(redirect_to=reverse_lazy("admin_user_edit_page",kwargs={"id":id}))
             # return redirect(redirect_to=reverse_lazy("user_edit_profile"))
@@ -306,7 +319,6 @@ class AdminListingsView(View):
                 return self.fetch_listings_xhr(req)
         if "admin/listings/destroy" in req.path and id:
             if Authentication.is_ajax(req):
-                print("INSIDE XHR")
                 return self.delete_listing_xhr(req,id)
             return self.delete_listing(req,id)
             
@@ -318,50 +330,34 @@ class AdminListingsView(View):
             data=[]
             for listing in listings:
                 listing_serializer=FetchListingSerializer(listing)
-                images=ListingImages.objects.filter(item_id=listing)
-                images_serializer=FetchListingImagesSerializer(images,many=True)
                 listing=listing_serializer.data
-                listing["images"]=images_serializer.data
                 data.append(listing)
-            # print(data)
             return JsonResponse({"data":data,"messages":"Listings Fetched Successfully!"}, status=200)
         
         except Exception as e:
-            print(e)
             return JsonResponse({"messages":"Internal server error!"}, status=500)
         
     def delete_listing_xhr(self,req,id:Any)->JsonResponse:
         try:
-            print("Inside Delete")
             listing=Listing.objects.get(id=id)
             images=ListingImages.objects.filter(item_id=listing)
-            print(images)
             for image in images:
-                image_path=os.path.join(BASE_DIR,str(image.image))
-                print(image_path)
-                if os.path.exists(image_path):
-                    os.remove(image_path)
+                delete_file(image.image)
                 image.delete()
             listing.delete()
             return JsonResponse({"id":listing.id,"message":"Listing deleted successfully!"})
         except Listing.DoesNotExist:
             return JsonResponse({"message":"Listing not found"},status=404)
         except Exception as e:
-            print(e)
             return JsonResponse({"message":"Internal Server error"},status=404)        
 
 
     def delete_listing(self,req:HttpRequest,id:Any)->HttpResponse:
         try:
-            print("Inside Delete")
             listing=Listing.objects.get(id=id)
             images=ListingImages.objects.filter(item_id=listing)
-            print(listing.user_id)
             for image in images:
-                image_path=os.path.join(BASE_DIR,str(image.image))
-                print(image_path)
-                if os.path.exists(image_path):
-                    os.remove(image_path)
+                delete_file(image.image)
                 image.delete()
             listing.delete()
             # return JsonResponse({"id":listing.id,"message":"Listing deleted successfully!"})
@@ -371,13 +367,7 @@ class AdminListingsView(View):
             # return JsonResponse({"message":"Listing not found"},status=404)
             messages.success(request=req,message="Item not found!")
             return redirect(redirect_to=reverse_lazy("admin_user_page",kwargs={"id":listing.user_id}))
-            return redirect(redirect_to=reverse_lazy("admin_user_page"),kwargs={"id":listing.user_id})
-            return redirect(redirect_to=reverse_lazy("admin_user_page"),kwargs={})
         except Exception as e:
-            print(e)
-            # return JsonResponse({"message":"Internal Server error"},status=404)
             messages.error(request=req,message="Internal server error!")
             return redirect(redirect_to=reverse_lazy("admin_user_page",kwargs={"id":listing.user_id}))
-            return redirect(redirect_to=reverse_lazy("admin_user_page"),kwargs={"id":listing.user_id})
-            return redirect(redirect_to=reverse_lazy("admin_user_page"))
 

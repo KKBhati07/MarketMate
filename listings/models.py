@@ -10,19 +10,18 @@ from marketmate.settings import UPLOAD_URL
 # importing user model
 from users.models import User
 
-# importing Image form pillow
-from PIL import Image
 
 
 # to generate a unique name for every upload
 def generate_filename(instance,filename):
     ext=filename.split(".")[1]
     unique_name = f"image-{uuid.uuid4()}.{ext}"
-    return os.path.join(f"{UPLOAD_URL}images/listings/", unique_name)
+    # return os.path.join(f"{UPLOAD_URL}images/listings/", unique_name)
+    return os.path.join(unique_name)
 
 # to generate a unique id against each item
 def generate_unique_id():
-    id= f"{time.time()}+{uuid.uuid4()}"
+    id= f"{time.time()}-{uuid.uuid4()}"
     return id[:20]
 
 # creating listing model
@@ -56,18 +55,4 @@ class ListingImages(models.Model):
 
     # to compress and save the image
     def save(self,*args, **kwargs):
-        if self.image:
-            previous_instance=ListingImages.objects.filter(id=self.id).first()
-            # if there is no new photo is updated
-            if previous_instance and self.image==previous_instance.image:
-                pass
-            # if new image is uploaded then delete the previous one
-            elif previous_instance and self.image!=previous_instance.image:
-                previous_instance.image.delete()
-                img=Image.open(self.image)
-                img.save(self.image,quality=70)
-            else:
-                img=Image.open(self.image)
-                img.save(self.image,quality=70)
-
         super().save(*args, **kwargs)

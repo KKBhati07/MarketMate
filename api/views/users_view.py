@@ -31,6 +31,8 @@ from ..serializer import FetchListingSerializer,FetchListingImagesSerializer,Fet
 # for JWT authentication
 from ..jwt_authetication import authenticate_jwt
 
+from marketmate.gcs_config import generate_signed_url,upload_file,delete_file
+
 class UserApiView(APIView):
     # --------------GET------------------
     # to fetch all the users
@@ -40,8 +42,7 @@ class UserApiView(APIView):
         try:
             # if the user is not the admin
             if not req.user.is_superuser:
-                return Response({"messages":["Unauthorized!"]},status=status.HTTP_401_UNAUTHORIZED)
-            
+                return Response({"messages":["Unauthorized!"]},status=status.HTTP_401_UNAUTHORIZED) 
             query=req.GET.get("listings")
             # if the users to be fetched with the listings
             if query and query=="True":
@@ -64,6 +65,8 @@ class UserApiView(APIView):
             for user in users:
                 user_serializer=FetchUserSerializer(user)
                 user_data=user_serializer.data
+                if user_data["profile_picture"]:
+                    user_data["profile_picture"]=generate_signed_url(user_data["profile_picture"])
                 user_data["listings"]=self.get_listings(user)
                 data.append(user_data)
             
@@ -82,6 +85,10 @@ class UserApiView(APIView):
             item_serializer=FetchListingSerializer(item)
             images_serializer=FetchListingImagesSerializer(images,many=True)
             item_data=item_serializer.data
+            item_images=images_serializer.data
+            for image in item_images:
+                image["image"]=generate_signed_url(image["image"])
+
             item_data["images"]=images_serializer.data
             listings.append(item_data)
         
@@ -96,9 +103,11 @@ class UserApiView(APIView):
             if not users:
                 return Response({"message":["No user found!"]},status=status.HTTP_404_NOT_FOUND)
             
-            serializer_user=FetchUserSerializer(users,many=True)
-            
-            return Response({"data":serializer_user.data,"message":["Users with listings fetched successfully "]},status=status.HTTP_200_OK)
+            serialized_user=FetchUserSerializer(users,many=True)
+            users_data=serialized_user.data
+            if users_data["profile_picture"]:
+                users_data["profile_picture"]=generate_signed_url(users_data["profile_picture"])
+            return Response({"data":users_data,"message":["Users with listings fetched successfully "]},status=status.HTTP_200_OK)
             
 
         except Exception as e:
@@ -120,7 +129,6 @@ class UserApiView(APIView):
         try:
             # to serialize the data
             serializer=UserRegistrationSerializer(data=req.data)
-
             # if the serialized data is valid
             if serializer.is_valid():
                 name=serializer.validated_data["name"]
@@ -264,7 +272,6 @@ class UserApiView(APIView):
     @authenticate_jwt   
     def delete(self,req:Request,id:Any=None)->Response:
         try:
-
         # if the user wants to delete itself from the platform
             if not id or req.user.id==id:
                 user=User.objects.get(id=req.user.id)
@@ -276,7 +283,7 @@ class UserApiView(APIView):
                 user=User.objects.get(id=id)
             # deleting the profile pic file from the server
             if user.profile_picture:
-                if not self.remove_profile_picture(str(user.profile_picture)):
+                if not delete_file(str(user.profile_picture),True):
                     return Response({"messages":["Something went wrong, Unable to delete user!"]},status=status.HTTP_400_BAD_REQUEST)
             if not self.delete_listings(user=user):
                     return Response({"messages":["Something went wrong, Unable to delete user!"]},status=status.HTTP_400_BAD_REQUEST)
@@ -290,17 +297,6 @@ class UserApiView(APIView):
         except Exception as e:
             return Response({"messages":["Internal server error!"]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-    # to remove the profile photo from the storage
-    def remove_profile_picture(self,path:str)->bool:
-        try:
-            image_path=os.path.join(BASE_DIR,path)
-            if os.path.exists(image_path):
-                os.remove(image_path)
-            return True
-        except Exception as e:
-            return False
-
     # to delete the listings associated to the user, if the user is deleted
     def delete_listings(self,user:User)->bool:
         try:      
@@ -313,16 +309,12 @@ class UserApiView(APIView):
         except Exception as e:
             return False
 
-
-
     # to remove the images from the server
     def remove_images(self,listing:Listing)->bool:
         try:
             images=ListingImages.objects.filter(item_id=listing)
             for image in images:
-                image_path=os.path.join(BASE_DIR,str(image.image))
-                if os.path.exists(image_path):
-                    os.remove(image_path)
+                delete_file(image.image)
                 image.delete()
             return True
         except Exception as e:

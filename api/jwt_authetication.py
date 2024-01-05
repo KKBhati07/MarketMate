@@ -20,7 +20,9 @@ class JWT:
     def authenticate(req: Request) -> Optional[Response]:
         auth_header = req.META.get("HTTP_AUTHORIZATION")
         if not auth_header:
-            return Response({"messages": ["Missing Authorization header"]}, status=status.HTTP_401_UNAUTHORIZED,)
+            return Response(
+                {"messages": ["Missing Authorization header"]}, status=status.HTTP_401_UNAUTHORIZED,
+            )
         try:
             token = auth_header.split(" ")[1]
         except IndexError:
@@ -45,9 +47,10 @@ def authenticate_jwt(view_method) -> Response:
     def wrapper(instance, req, *args, **kwargs):
         try:
             auth_header = req.META.get("HTTP_AUTHORIZATION")
+
             if not auth_header:
                 return Response( {"messages": ["Missing Authorization header"]},status=status.HTTP_401_UNAUTHORIZED)
-            try:
+            try: 
                 token = auth_header.split(" ")[1]
             except IndexError:
                 return Response( {"messages": ["No Token provided"]},status=status.HTTP_401_UNAUTHORIZED)

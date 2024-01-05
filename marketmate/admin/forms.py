@@ -1,5 +1,6 @@
 from django import forms
 
+# form to create new user
 class CreateUserForm(forms.Form):
     name=forms.CharField(label=None, widget=forms.TextInput(attrs={"placeholder":"Enter a Name..."}))
     email=forms.EmailField(required=True, widget=forms.EmailInput(attrs={"placeholder":"Enter a Email Address..."}))

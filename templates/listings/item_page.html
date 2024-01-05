@@ -35,18 +35,12 @@
 
                 <p>{{data.item.description}} </p>
             </div>
-            {% comment %} <h2>{{data.item.description}}</h2> {% endcomment %}
             <p id="item-price" > {{data.item.price | format_currency  }} </p>
-            {% comment %} <h2>{{data.item.price}}</h2> {% endcomment %}
-            {% comment %} {% for image in data.images %}
-            <img style="width:50px;" src="/{{image.image}}" alt="">
-            {% endfor %} {% endcomment %}
             <p id="item-category"  >Category: <strong>{{data.item.category}} </strong></p>
             {% if data.item.user_id == request.user.id %}
             <a class="unlist-item" href="{% url "listing_delete_item" id=data.item.id %}"><strong>Unlist Item</strong></a>
             {% else %}
             <p id="listed-by"  > Listed By: <strong><a href="{% url "user_other_profile" id=data.item.user_id %}"> {{data.listed_by.name}} </a></strong> </p>
-            {% comment %} <a href="">Listed By: {{data.listed_by.name}}</a> {% endcomment %}
             <p id="interested" >Interested? <strong class="notify-user" id="{{data.item.id}}" >NOTIFY USER</strong> </p>
 
             

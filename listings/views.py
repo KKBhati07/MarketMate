@@ -1,3 +1,6 @@
+#importing time and uuid
+import uuid,time
+
 # importing typing
 from typing import Any
 # importing django modules
@@ -36,6 +39,8 @@ from marketmate.mailer import send_notification_mail
 # importing messages module for flash messages
 from django.contrib import messages
 
+from marketmate.gcs_config import upload_file,generate_signed_url,delete_file
+
 # to render the sell item page
 class ListItemView(TemplateView):
     template_name="listings/list_item.html"
@@ -47,6 +52,11 @@ class ListItemView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["form"] = ListItemForm()
         return context
+
+# to generate a unique id against each item
+def generate_unique_id():
+    id= f"{time.time()}-{uuid.uuid4()}"
+    return id[:20]
 
 # listing view
 class ListingView(View):
@@ -68,12 +78,19 @@ class ListingView(View):
                 description=form.cleaned_data["description"]
                 category=form.cleaned_data["category"]
                 price=form.cleaned_data["price"]
-                images=form.files.getlist("images")
+                images=req.FILES.getlist("images")
+                if len(images)<1:
+                    messages.error(request=req,message="PLease select at least one IMAGE !")
+                    return redirect(redirect_to=reverse_lazy("home"))
+
                 listing=Listing(title=title,description=description,category=category,user=req.user,price=price)
                 listing.save()
 
                 for image in images:
-                    ListingImages(image=image,item=listing).save()
+                    file_content = image.read()
+                    upload_result = upload_file(file_content, f"listings/{generate_unique_id()}")
+                    gcs_url = upload_result.get("obj").public_url 
+                    ListingImages(image=gcs_url,item=listing).save()
                 
                 messages.success(request=req,message="Product listed successfully!")
                 return redirect(redirect_to=reverse_lazy("user_profile"))
@@ -96,6 +113,7 @@ class ListingView(View):
             return redirect(redirect_to=reverse_lazy('listing_list_item'))
 
         except Exception as e:
+            print(e)
             messages.error(request=req,message="Internal server error!")
             return redirect(redirect_to=reverse_lazy('listing_list_item'))
 
@@ -130,6 +148,7 @@ class ListingView(View):
             return redirect(redirect_to=reverse_lazy("home"))
 
         except Exception as e:
+
             messages.error(request=req,message="Internal server error!")
             return redirect(redirect_to=reverse_lazy("home"))
     
@@ -138,8 +157,10 @@ class ListingView(View):
         try:
             listing_images= ListingImages.objects.filter(item_id=id)
             images_serializer=FetchListingImagesSerializer(listing_images,many=True)
-            return JsonResponse({"images":images_serializer.data,"message":"Images fetched successfully!"},status=200)
-
+            images_data=images_serializer.data
+            for image_data in images_data:
+                image_data["image"]=generate_signed_url(image_data["image"])
+            return JsonResponse({"images":images_data,"message":"Images fetched successfully!"},status=200)
         except Exception as e:
             return JsonResponse({"message":"Internal server error!"},status=500)
 
@@ -155,9 +176,7 @@ class ListingView(View):
             images=ListingImages.objects.filter(item_id=listing)
             # to delete the images from the disk 
             for image in images:
-                image_path=os.path.join(BASE_DIR,str(image.image))
-                if os.path.exists(image_path):
-                    os.remove(image_path)
+                delete_file(image.image)
                 image.delete()
             listing.delete()
             messages.success(req,message="Item deleted successfully!")

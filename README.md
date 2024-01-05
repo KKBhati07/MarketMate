@@ -1,6 +1,6 @@
 # Market Mate
 
-Market Mate is an online marketplace application, designed to facilitate buying and selling of various products.
+Market Mate is an online marketplace application similar to OLX, designed to facilitate buying and selling of various products.
 
 ## Features
 
@@ -44,7 +44,7 @@ Market Mate is an online marketplace application, designed to facilitate buying 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/KKBhati07/MarketMate.git
+    git clone https://github.com/your-username/your-repo.git
     ```
 
 2. Navigate to the project directory:
@@ -64,17 +64,12 @@ Market Mate is an online marketplace application, designed to facilitate buying 
     ```bash
     python manage.py migrate
     ```
-    ```bash
-    python manage.py makemigrations
-    ```
 
 5. Start the development server:
 
     ```bash
     python manage.py runserver
     ```
-
-
 
 
 ## Screenshots
@@ -90,4 +85,6 @@ Market Mate is an online marketplace application, designed to facilitate buying 
 ![MM Screenshot](./static/images/screenshots/9.png)
 ![MM Screenshot](./static/images/screenshots/10.png)
 ![MM Screenshot](./static/images/screenshots/11.png)
+
+
 

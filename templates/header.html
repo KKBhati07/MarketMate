@@ -14,14 +14,31 @@
 
 
  <nav class="navigation" >
+     <div class="drop-down" >
+         <img src="{% static "/images/icons/down-arrow.png" %}" alt="">
+         <ul class="drop-navigation-list" >
+            {% if request.user.is_authenticated %}
+            <li><a href="{{profile}}">
+    
+                <img class="user-profile" src="{% if request.user.profile_picture %}{{request.user.profile_picture}}{% else %}{% static "/images/icons/profile-user.png" %}{% endif %}" alt="Image"></li>
+            </a>
+            <li class="sell-item" ><a href="{{list_item}}">Sell Item</a></li>
+            {% if request.user.is_superuser %} <li><a href="{{admin}}">Admin</a></li> {% endif %}
+            
+            {% else %}
+            <li><a href="{{signup}}"> Sign up</a></li>
+            <li><a href="{{login}}">Log in</a></li>
+    
+            {% endif %}
+        </ul>
+     </div>
     <ul class="navigation-list" >
         {% if request.user.is_authenticated %}
         <li><a href="{{profile}}">
 
-            <img class="user-profile" src="{% if request.user.profile_picture %}/{{request.user.profile_picture}}{% else %}{% static "/images/icons/profile-user.png" %}{% endif %}" alt="Image"></li>
+            <img class="user-profile" src="{% if request.user.profile_picture %}{{request.user.profile_picture}}{% else %}{% static "/images/icons/profile-user.png" %}{% endif %}" alt="Image"></li>
         </a>
         <li class="sell-item" ><a href="{{list_item}}">Sell Item</a></li>
-        {% comment %} <li><img src="{% static "/images/" %}" alt=""></li> {% endcomment %}
         {% if request.user.is_superuser %} <li><a href="{{admin}}">Admin</a></li> {% endif %}
         
         {% else %}

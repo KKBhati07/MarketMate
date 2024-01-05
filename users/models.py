@@ -67,8 +67,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 
         def __str__(self) -> str:
             return self.name
-
-# to store verification tokens       
+        
 class VerificationTokens(models.Model):
     name=models.CharField(null=False,default=None,max_length=50)
     email=models.CharField(null=False,max_length=50)

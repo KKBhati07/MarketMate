@@ -1,11 +1,12 @@
 .hover-image:hover{
-    border: 2px solid var(--hoverBorder);
+    border: 2px solid var(--primaryColor);
 }
 
 #interested>strong:hover, #listed-by a:hover,
- .details-container>h1:hover, .unlist-item:hover, 
- #item-category>strong:hover{
+.details-container>h1:hover, .unlist-item:hover, 
+#item-category>strong:hover{
     color: var(--hoverBorder);
+    color: var(--primaryColor);
 }
 /* ------------ROOT-------------- */
 
@@ -22,7 +23,7 @@
 /* --------------IMAGES CONTAINER----------- */
 .images-container {
     margin-top: 10px;
-    border: 2px solid var(--borderColor);
+    border: 1px solid var(--primaryColor);
     background-color: rgb(196, 196, 196);
     position: relative;
     width: 55vw;
@@ -31,7 +32,7 @@
 }
 
 #carousel-image{
-    height: 80vh;
+    height: 79vh;
     width: 45vw;
     object-fit: contain;
 }
@@ -65,26 +66,29 @@
 }
 
 .details-container>h1{
-    color: var(--borderColor);
+    color: var(--primaryColor);
     font-size: 3rem;
     cursor: default; 
 }
 
 .desc-container{
-    border-top: 2px solid var(--borderColor);
-    border-bottom: 2px solid var(--borderColor);
+    border-top: 1px solid var(--borderColor);
+    border-bottom: 1px solid var(--borderColor);
     width: 40vw;
+    color: var(--primaryColor);
     height: 50vh;
     overflow: scroll;
     margin-top: 10px;
 }
 
 #item-price{
+    color: var(--primaryColor);
     font-size: 2rem;
     font-weight: 800;
 }
 
 #listed-by,#interested{
+    color: var(--primaryColor);
     cursor: default;
     margin-top: 20px;
 }
@@ -105,5 +109,42 @@
     display: block;
     text-decoration: none;
     margin-top: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    body{
+        width: 100vw;
+    }
+
+
+    .root{
+    margin: 0;
+        padding-left: 1vw;
+        height: auto;
+        padding-right: 1vw;
+        margin-bottom: 2vh;
+        flex-direction: column;
+    }
+
+    .images-container{
+        width: 97vw;
+        height: 80vh;
+    }
+
+    #carousel-image{
+        height: 75vh;
+        width: 95vw;
+    }
+    .details-container{
+        margin-left: 0px;
+        width: 98vw;
+    }
+    .desc-container{
+        width: 98vw;
+    }
+    
+    
+    
+
 }
 

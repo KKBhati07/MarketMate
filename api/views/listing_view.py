@@ -1,5 +1,6 @@
 # importing typing module
 from typing import Any
+import time,uuid
 
 # importing os and settings
 from marketmate.settings import BASE_DIR
@@ -22,6 +23,9 @@ from django.db.models import Q
 from listings.models import Listing,ListingImages
 from users.models import User
 
+
+from marketmate.gcs_config import generate_signed_url,upload_file
+
 # importing serializers
 from ..serializer import (FetchListingSerializer,FetchListingImagesSerializer,CreateListingSerializer,
                           FetchUserSerializer,UpdateListingSerializer)
@@ -29,7 +33,10 @@ from ..serializer import (FetchListingSerializer,FetchListingImagesSerializer,Cr
 # importing pagination from rest framework
 from rest_framework.pagination import PageNumberPagination
 
-
+# to generate a unique id against each item
+def generate_unique_id():
+    id= f"{time.time()}-{uuid.uuid4()}"
+    return id[:20]
 
 # listing Api view
 class ListingApiView(APIView,PageNumberPagination):
@@ -73,7 +80,10 @@ class ListingApiView(APIView,PageNumberPagination):
                 images=ListingImages.objects.filter(item_id=listing)
                 listing_images_serializer=FetchListingImagesSerializer(images,many=True)
                 listing=listing_serializer.data
-                listing["images"]=listing_images_serializer.data
+                listing_images=listing_images_serializer.data
+                for image in listing_images:
+                    image["image"]=generate_signed_url(image["image"])
+                listing["images"] = listing_images
                 data.append(listing)
 
             return Response({"data":data,"messages":["Listings fetched successfully!"]},status=status.HTTP_200_OK)
@@ -94,7 +104,10 @@ class ListingApiView(APIView,PageNumberPagination):
                 images=ListingImages.objects.filter(item_id=listing)
                 listing_images_serializer=FetchListingImagesSerializer(images,many=True)
                 listing=listing_serializer.data
-                listing["images"]=listing_images_serializer.data
+                listing_images=listing_images_serializer.data
+                for image in listing_images:
+                    image["image"]=generate_signed_url(image["image"])
+                listing["images"] = listing_images
                 data.append(listing)
 
                 
@@ -113,6 +126,9 @@ class ListingApiView(APIView,PageNumberPagination):
             user_serializer=FetchUserSerializer(User.objects.get(id=listing.user_id))
             data=listing_serializer.data
             data["created by"]=user_serializer.data
+            images_data=images_serializer.data
+            for image in images_data:
+                image["image"]=generate_signed_url(image["image"])
             data["images"]=images_serializer.data
             return Response({"data":data},status=status.HTTP_200_OK)
         # if the item is ont found
@@ -137,7 +153,11 @@ class ListingApiView(APIView,PageNumberPagination):
                 item_serializer = FetchListingSerializer(item)
                 images_serializer = FetchListingImagesSerializer(images, many=True)
                 item_data = item_serializer.data
-                item_data["images"] = images_serializer.data
+                listing_images=images_serializer.data
+                for image in listing_images:
+                    image["image"]=generate_signed_url(image["image"])
+                item_data = item_serializer.data
+                item_data["images"] = listing_images
                 data.append(item_data)
             return Response({"data":data,"messages":["Items Fetched Successfully!"]},status=status.HTTP_200_OK)
 
@@ -153,8 +173,11 @@ class ListingApiView(APIView,PageNumberPagination):
                 images = ListingImages.objects.filter(item_id=item)
                 item_serializer = FetchListingSerializer(item)
                 images_serializer = FetchListingImagesSerializer(images, many=True)
+                listing_images=images_serializer.data
+                for image in listing_images:
+                    image["image"]=generate_signed_url(image["image"])
                 item_data = item_serializer.data
-                item_data["images"] = images_serializer.data
+                item_data["images"] = listing_images
                 data.append(item_data)
             return Response({"data":data,"messages":["Items Fetched Successfully!"]},status=status.HTTP_200_OK)
 
@@ -174,7 +197,11 @@ class ListingApiView(APIView,PageNumberPagination):
                 images_serializer = FetchListingImagesSerializer(images, many=True)
 
                 item_data = item_serializer.data
-                item_data["images"] = images_serializer.data
+                listing_images=images_serializer.data
+                for image in listing_images:
+                    image["image"]=generate_signed_url(image["image"])
+                item_data = item_serializer.data
+                item_data["images"] = listing_images
                 data.append(item_data)
             return Response({"data":data,"messages":["Items Fetched Successfully!"]},status=status.HTTP_200_OK)
 
@@ -201,8 +228,11 @@ class ListingApiView(APIView,PageNumberPagination):
 
                 images=data.get("images") or []
                 for image in images:
-                    listing_image=ListingImages(item_id=listing,image=image.get("image"))
-                    listing_image.save()
+                    file_content = image.read()
+
+                    upload_result = upload_file(file_content, f"listings/{generate_unique_id()}")
+                    gcs_url = upload_result.get("obj").public_url 
+                    ListingImages(image=gcs_url,item=listing).save()
                 return Response({"messages": ["Listing created successfully!"]}, status=status.HTTP_201_CREATED)
 
             return Response({"messages": ["Invalid data"]}, status=status.HTTP_400_BAD_REQUEST)
@@ -259,6 +289,7 @@ class ListingApiView(APIView,PageNumberPagination):
             if not id:
                 return Response({"messages":["Invalid request, provide id"]},status=status.HTTP_400_BAD_REQUEST)
             listing=Listing.objects.get(id=id)
+            
             # to get the images associated with the listing from the database
             images=ListingImages.objects.filter(item_id=id)
             # to delete the image files from the server

@@ -1,14 +1,22 @@
 from pathlib import Path
 from datetime import timedelta
+import os
+
+# getting environment variables
+ALLOWED_HOST_=os.environ.get("ALLOWED_HOST_",default="*")
+EMAIL_HOST_USER_=os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD_=os.environ.get("EMAIL_HOST_PASSWORD")
+
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-ecpjd7wh9kcqn*%+hzm_ovycnn_cym#kaqa%9agxzd)qt^j+&e'
+SECRET_KEY = os.environ.get("SECRET_KEY",default='django-insecure-ecpjd7wh9kcqn*%+hzm_ovycnn_cym#kaqa%9agxzd)qt^j+&e')
 
-DEBUG = True
+DEBUG = os.environ.get("DEBUG",default=True)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [ALLOWED_HOST_]
 
 # setting up custom login url
 LOGIN_URL='users:login'
@@ -21,7 +29,6 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
-
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
     "VERIFYING_KEY": "",
@@ -84,12 +91,7 @@ INSTALLED_APPS+=EXTERNAL_APPS
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS = []
-
-# CSRF_COOKIE_SECURE = False
-# CSRF_USE_SESSIONS = False
-
-
+CSRF_TRUSTED_ORIGINS = [f"https://{ALLOWED_HOST_}"]
 
 
 MIDDLEWARE = [
@@ -101,7 +103,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
+
+CUSTOM_MIDDLEWARES=[
+    "marketmate.middlewares.profile_picture_middleware.ProfileMiddleware"
+    
+]
+
+MIDDLEWARE+=CUSTOM_MIDDLEWARES
 
 ROOT_URLCONF = 'marketmate.urls'
 
@@ -123,19 +133,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'marketmate.wsgi.application'
 
-# configuring mySql as database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'marketmate_db',
-        'USER': 'root',
-        'PASSWORD': 'Mysqlpass@123',
-        'HOST': 'localhost',   
-        'PORT': '3306',     
-        'OPTIONS': {
-            'init_command': 'SET default_storage_engine=INNODB',
-            'charset': 'utf8mb4',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -172,12 +173,11 @@ UPLOAD_ROOT = Path.joinpath(BASE_DIR, UPLOAD_URL)
 # setting user model to use for authentication
 AUTH_USER_MODEL="users.User"
 
-
-# setting up mailing service
-# configuring mailtrap for demo
-EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = 'c0f07b1d658dff'
-EMAIL_HOST_PASSWORD = 'b5c509abf43cdc'
-EMAIL_PORT = '2525'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = EMAIL_HOST_USER_
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD_
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

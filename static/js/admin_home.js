@@ -8,6 +8,7 @@
             type: "get",
             url: "/admin/users/fetch/",
             success: function (response) {
+                setTheme("users")
                 renderUsers(response.users);
             },
             error: function (error) {
@@ -71,9 +72,12 @@
 
     }
 
+    //to fetch the users
     function fetchUsers() {
         onLoad();
     }
+
+    //to fetch the listings
     async function fetchListings() {
         try {
             let response = await fetch("/admin/listings/fetch/", {
@@ -86,7 +90,7 @@
             return { response: null, error: "Unable to load Listings" };
         }
     }
-
+    //to delete the the listing
     async function deleteListing(id) {
         try {
             let response = await fetch(`/admin/listings/destroy/${id}`, {
@@ -106,8 +110,23 @@
         }
     }
 
+    //to set the menu icon theme
+    function setTheme(set, remove) {
+        $(`#${set}`).css("border", "1px solid var(--primaryColor)");
+        $(`#${set}>div`).css("backgroundColor", "var(--primaryColor)");
+        $(`#${set} img`).attr("src", `/static/images/icons/${set}_white.png`);
+
+        //to remove the theme form items
+        if (remove) {
+            $(`#${remove}`).css("border", "none");
+            $(`#${remove}>div`).css("backgroundColor", "white");
+            $(`#${remove} img`).attr("src", `/static/images/icons/${remove}.png`);
+        }
+    }
+
     // ----------------EVENT HANDLERS---------------------
 
+    //to add the user
     function addUserBtnClickHandler() {
         window.location.href = "/admin/users/create/";
     }
@@ -147,18 +166,18 @@
 
 
     async function listingBtnClickHandler() {
-        $("#users").removeAttr("class").addClass("menu-list");
-        $("#listings").addClass("is-active");
+        setTheme("listings", "users")
         response = await fetchListings();
         renderListings(await fetchListings());
     }
 
 
     function userBtnClickHandler() {
-        $("#listings").removeAttr("class").addClass("menu-list");
-        $("#users").addClass("is-active");
+        setTheme("users", "listings")
         fetchUsers();
     }
+
+
 
     function deleteListingBtnClickHandler(event) {
         deleteListing(event.target.id);

@@ -1,48 +1,49 @@
 /* -------------HOVER CLASSES--------------- */
-form>p:hover {
-    color: var(--hoverBorder);
-}
 
 form>input:hover {
-    border: 2px solid var(--hoverBorder);
+    border: 1px solid var(--primaryColor);
 }
 
 form>input:focus {
-    border: 2px solid var(--buttonColor);
+    border: 1px solid var(--primaryColor);
 }
 
 .submit-btn:hover {
-    border: 2px solid var(--hoverBorder);
-    filter: brightness(0.9);
-    color: var(--hoverBorder);
+    border: 2px solid var(--primaryColor);
+    font-weight: 800;
+    color: var(--primaryColor);
     background-color: white
 }
 
 /* -------------ROOT--------------- */
 .root {
     width: 100vw;
-    height: 90vh
+    height: 90vh;
+    display: flex;
+    justify-content: center;
 }
 
 /* -------------lOGIN FORM--------------- */
 form {
-    width: 30vw;
+    border-radius: 15px;
     margin-left: 50px;
-    margin-top: 70px;
-    height: 45vh;
+    margin-top: 50px;
+    margin-bottom: 0;
+    padding: 20px;
 }
 
 form>p {
     font-size: 1.5rem;
     text-align: center;
-    color: var(--borderColor);
+    color: var(--primaryColor);
     font-weight: 700
 }
 
 form>input {
     padding-left: 10px;
     display: block;
-    border: 2px solid var(--borderColor);
+    border: 1px solid var(--borderColor);
+    border-radius: 10px;
     outline: none;
     height: 7vh;
     width: 35vw;
@@ -54,5 +55,5 @@ form>input {
     padding-left: 0;
     border: none;
     color: white;
-    background-color: var(--buttonColor);
+    background-color: var(--primaryColor);
 }

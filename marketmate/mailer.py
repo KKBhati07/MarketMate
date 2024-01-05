@@ -6,7 +6,7 @@ from users.models import User
 # to send the verification mail to the user
 def send_verification_mail(send_to:str,user:User,verification_url:str)->bool:
     try:
-        subject, from_email = "Verification mail", "marketmatedev@mm.in"
+        subject, from_email = "Verification mail", "auth@marketmate.in"
         text_content = "Verify Yourself."
         html_content=render_to_string("mail/user_verification.html",{"user":user,"verification_url":verification_url})
         mail=EmailMultiAlternatives(subject=subject,body=text_content,from_email=from_email,to=[send_to])
@@ -24,7 +24,7 @@ def send_notification_mail(send_to:str,user:User,item_url:str,recipient:str)->bo
         mail=EmailMultiAlternatives(subject=subject,from_email=from_email,to=[send_to])
         mail.attach_alternative(content=html_content,mimetype="text/html")
         mail.send()
-        return True;
+        return True
     except Exception as e:
         return False
 

@@ -28,21 +28,20 @@
     }
     function onYesClickHandler(event) {
         window.location.href = `/admin/users/destroy/${event.target.id}`;
-        
     }
-    
-    function onListingItemClickHandler(event){
+
+    function onListingItemClickHandler(event) {
         event.stopPropagation();
-        window.location.href=`/listings/fetch/${event.target.id}`;
+        window.location.href = `/listings/fetch/${event.target.id}`;
     }
-    
-    function onDeleteContainerClickListener(event){
+
+    function onDeleteContainerClickListener(event) {
         event.stopPropagation();
         $(".delete-popup-container").css("display", "none");
 
     }
 
-    function onDeletePopupClickListener(event){
+    function onDeletePopupClickListener(event) {
         event.stopPropagation();
     }
 

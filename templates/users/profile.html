@@ -22,14 +22,13 @@
         <aside class="aside-section">
             <div class="profile">
                 {% if profile_user %}
-                <img src="{% if profile_user.profile_picture %}/{{profile_user.profile_picture}}{% else %}{% static "/images/icons/profile-user.png" %}{% endif %}" alt="">
+                <img src="{% if profile_user.profile_picture %} {{profile_user.profile_picture}}{% else %}{% static "/images/icons/profile-user.png" %}{% endif %}" alt="">
                 <h2>{{profile_user.name}} </h2>
                 {% else %}
-                    <img src="{% if request.user.profile_picture %}/{{request.user.profile_picture}}{% else %}{% static "/images/icons/profile-user.png" %}{% endif %}" alt="">
+                    <img src="{% if request.user.profile_picture %}{{request.user.profile_picture}}{% else %}{% static "/images/icons/profile-user.png" %}{% endif %}" alt="">
                     <h2>{{request.user.name}} </h2>
                     <a href="{{edit_profile}}">Edit Profile</a>
                     <a href="{{logout}}">Logout</a>
-                {% comment %} <a href="{% url "edit_profile"%}">Edit Profile</a> {% endcomment %}
                 {% endif %}
             </div>
             <div class="divider"></div>
@@ -39,7 +38,7 @@
             
                 {% for listing, image in listings.items %}
                     <div class="item-container" id="{{listing.id}}">
-                        <img src="{% if image %} /{{image.image}} {% else %}{% static "/images/icons/image.png" %} {% endif %}" id="{{listing.id}}" alt="">
+                        <img src="{% if image %}{{image.image}}{% else %}{% static "/images/icons/image.png" %} {% endif %}" id="{{listing.id}}" alt="">
                         <p class="title" id="{{listing.id}}" >{{listing.title}}</p>
                         <p class="price" id="{{listing.id}}" >{{listing.price | format_currency }} </p>
                     </div>

@@ -1,59 +1,123 @@
-.root {
+.root{
     width: 100%;
     height: 90vh;
     display: flex;
 }
-
-
 /* -----------HOVER CLASSES------------- */
-.user-container:hover {
-    border: 2px solid var(--hoverBorder);
+.user-container:hover{
+    border: 2px solid var(--primaryColor);
+    scale: 1.03;
 }
 
-.user-container:hover p {
-    color: var(--hoverBorder);
+.user-container:hover p{
+    color: var(--primaryColor);
+    font-weight: 700;
+}
+.listing-container:hover{
+    border: 2px solid var(--primaryColor);
+    scale: 1.03;
+
 }
 
-.listing-container:hover {
-    border: 2px solid var(--hoverBorder);
-
-}
-
-.listing-container:hover .item-title {
-    color: var(--hoverBorder);
+.listing-container:hover .item-title    {
+    color: var(--primaryColor);
 }
 
 
-.listing-container>img:hover {
+.listing-container>img:hover{
     scale: 1.1;
 }
 
-.add-btn:hover {
-    background-color: white;
-    filter: brightness(0.9);
-    border: 2px solid var(--hoverBorder);
+.add-btn:hover{
+    background-color: var(--primaryColor);
+}
+.add-btn:hover>p{
+    color: white;
 }
 
-.add-btn:hover>p {
-    color: var(--hoverBorder);
+.logout-btn:hover{
+    background-color: var(--primaryColor);
+    
+}
+
+.logout-btn:hover p{
+
+    color: white;
 }
 
 
 /* -------------ASIDE SECTION------------ */
 
-.aside-section {
+.aside-section{
     padding-top: 10vh;
     position: relative;
     width: 25vw;
     height: 100%;
 }
 
-.is-active {
-    background-color: var(--buttonColor);
-    color: white;
+.menu-list{
+    margin-left: 10%;
+    margin-top: 10px;
+    border-radius: 10px;
+    width: 80%;
+    align-items: center;
+    display: flex;
+    transition: 0.3s all ease-in-out;
+    border-radius: 15px;
+    width: 250px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
 }
 
-.menu-list {
+.menu-list>.icon-container{
+    transition: 0.3s all ease-in-out;
+    border: 1px solid var(--primaryColor);
+    border-radius: 15px;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-list p {
+    color: var(--fontColorLight);
+    color: var(--itemColor);
+    margin-left: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s all ease-in-out;
+
+}
+
+.icon-container>img,
+.drop-image-container>img {
+    transition: 0.3s all ease-in-out;
+    width: 20px;
+}
+.logout-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--primaryColor);
+    height: 50px;
+    width: 250px;
+    border-radius: 15px;
+    position: absolute;
+    margin-left: 10%;
+    bottom: 20px;
+    text-decoration: none;
+}
+
+.logout-btn>p{
+    color: var(--primaryColor);
+    font-weight: 700;
+}
+
+
+.menu-listt{
     width: 100%;
     height: 8vh;
     border-bottom: solid 2px var(--borderColor);
@@ -64,15 +128,10 @@
     cursor: pointer;
 }
 
-.logout {
-    position: absolute;
-    bottom: 5vh;
-}
-
-.divider {
+.divider{
     width: 0;
     height: 80vh;
-    border-right: 2px solid var(--borderColor);
+    border-right: 1px solid var(--primaryColor);
     right: 0;
     top: 5vh;
     position: absolute;
@@ -80,33 +139,34 @@
 
 /* -------------MAIN SECTION--------------- */
 
-.main-container {
+.main-container{
     position: relative;
     width: 75vw;
     height: 100%;
     padding: 50px;
-    overflow: scroll;
+    overflow: scroll;  
 }
 
 /* ---------FOR USER-------- */
 
-.user-container {
+.user-container{
+    transition: all 0.3s ease-in-out;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
     height: 10vh;
     width: 50vw;
-    border: solid 2px var(--borderColor);
+    border-radius: 10px;
+    border: solid 1px var(--borderColor);
 
 }
 
-.user-container>p {
+.user-container>p{
     cursor: pointer;
     margin-left: 10px;
 }
-
-.user-container>img {
+.user-container>img{
     width: 40px;
     height: 40px;
     margin-right: 10px;
@@ -114,30 +174,29 @@
 }
 
 /* add user btn */
-.add-btn {
+.add-btn{
     width: 120px;
-    height: 50px;
-    border: 2px solid var(--borderColor);
+    height: 45px;
+    border: 2px solid var(--primaryColor);
+    border-radius: 25px;
     position: fixed;
     right: 20px;
     bottom: 20px;
     display: block;
     align-items: center;
-    background-color: var(--buttonColor);
-
 }
 
-.add-btn>p {
+.add-btn>p{
     cursor: pointer;
     position: relative;
     top: 25%;
     font-weight: 600;
     left: 20%;
-    color: white;
+    color: var(--primaryColor);
 }
 
 /* ------FOR LISTINGS------- */
-.listing-container {
+.listing-container{
     margin-top: 10px;
     padding-left: 10px;
     display: flex;
@@ -145,23 +204,24 @@
     align-items: center;
     height: 17vh;
     width: 50vw;
-    border: solid 2px var(--borderColor);
+    border: solid 1px var(--borderColor);
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
 }
 
-.listing-container>div {
+.listing-container>div{
     width: 50vw;
     height: 10vh;
 }
 
-.listing-container>img {
+.listing-container>img{
     width: 40px;
     cursor: pointer;
     height: 40px;
     transition: all 0.3s ease-in-out;
     margin-right: 10px;
 }
-
-.item-title {
+.item-title{
     cursor: pointer;
     font-size: 1.1rem;
     font-weight: 700;
@@ -169,7 +229,7 @@
 
 
 /* -------------------DELETE USER POPUP----------- */
-.delete-popup-container {
+.delete-popup-container{
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -182,23 +242,22 @@
     left: 0;
 }
 
-.delete-popup {
-    background-color: var(--buttonColor);
+.delete-popup{
+    background-color: var(--primaryColor);
+    border-radius: 10px;
     padding: 10px;
     border: 2px solid white;
     width: 25vw;
     height: 25vh;
     position: relative;
-
+    
 }
-
-.delete-popup>p {
+.delete-popup>p{
     font-size: 1.3rem;
     color: white;
     font-weight: 800;
 }
-
-.yes-no-container {
+.yes-no-container{
     padding: 5px;
 
     position: absolute;
@@ -208,10 +267,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(to right, red, grey);
+    background: linear-gradient(to right, red, grey); 
 }
-
-.yes-no-container>p {
+.yes-no-container>p{
     font-size: 1.1rem;
     color: white;
     cursor: pointer;

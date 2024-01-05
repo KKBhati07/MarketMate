@@ -1,8 +1,6 @@
 from django import forms
 from .models import User
 
-from django.forms.widgets import FileInput
-
 
 # Login form for the user
 class LoginForm(forms.Form):
@@ -33,6 +31,7 @@ class ProfileUpdateForm(forms.Form):
     def __init__(self,user_instance:User,*args, **kwargs):
         self.user_instance=user_instance
         super().__init__(*args, **kwargs)
+        
         
     def save(self):
         # Update the user profile with the form data

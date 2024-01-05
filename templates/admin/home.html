@@ -22,10 +22,26 @@
     <div class="root" >
         <!-- ----------ASIDE SECTION------------ -->
         <aside class="aside-section" >
-            <p id="users" class="menu-list is-active">Users</p>
-            <p id="listings" class="menu-list">Listings</p>
-            <a href="{{logout}}">    
-                <p id="logout-btn" class="menu-list logout">Logout</p>
+            <div id="users" class="menu-list">
+                <div class="icon-container">
+                    <img src="{% static "/images/icons/users.png" %}" alt="">
+                    
+                    
+                </div>
+                <p  class="menu-list-text">Users</p>
+                
+            </div>
+            
+            <div id="listings" class="menu-list">
+                <div class="icon-container">
+                    <img src="{% static "/images/icons/listings.png" %}" alt="">
+
+                </div>
+
+                <p  class="menu-list-text">Listings</p>
+            </div>
+            <a class="logout-btn" href="{{logout}}">    
+                <p id="logout-btn" >Logout</p>
             </a>
             
             <div class="divider"></div>
