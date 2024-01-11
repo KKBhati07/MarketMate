@@ -84,7 +84,6 @@
     }
 
     function searchInputEnterPressHandler(event) {
-        if(event.key!=="Enter") return;
         let val = event.target.value;
         if (!val) fetchItems()
         else fetchItemsQuery(val);
@@ -100,6 +99,6 @@
         $(item).click(categoriesClickHandler);
     });
     $(".items-container").on("click", ".item-container", itemClickHandler);
-    $(".item-search").on("keypress", searchInputEnterPressHandler);
+    $(".item-search").on("keyup", searchInputEnterPressHandler);
     $(".search-icon").click(searchBtnClickHandler);
 }

@@ -11,7 +11,6 @@
       $(".drop-navigation-list").css("height", "70px");
       $(".drop-down>img").css("transform", "rotate(180deg)");
     }
-    console.log(height);
   }
 
 
