@@ -11,12 +11,20 @@ from listings.models import Listing,ListingImages
 # for home view
 class Home(View):
     def get(self,req:HttpRequest)->HttpResponse:
+        category=req.GET.get("category",None)
+        search=req.GET.get("search","")
         listings=Listing.objects.all()
         data={}
         for listing in listings:
             image=ListingImages.objects.filter(item_id=listing).first()
             data[listing]=image
-        return render(req,"home.html",{"data":data})
+        if not category:
+            category="all"
+        return render(req,"home.html",{"data":data,"category":category,"search":search})
+
+class Cover(View):
+    def get(self,req:HttpRequest)->HttpResponse:
+        return render(req,"cover.html")
 
 
 # to render the resource not found page

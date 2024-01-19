@@ -16,23 +16,34 @@
         });
         data = await response.json();
         renderImage(data);
+        // to Make the image visible with opacity transition
+        $("#carousel-image, .add-image").on("load", function () {
+            $(this).css("opacity", "1"); 
+        });
     }
     // function to render the image on DOM
     function renderImage(data) {
+        $("#carousel-image").css("opacity", "0");
         if (imageIndex > 0) $("#prev-btn").css("display", "block");
         if (imageIndex <= 0) $("#prev-btn").css("display", "none");
         if (imageIndex >= data.images.length - 1) $("#next-btn").css("display", "none");
         if (imageIndex < data.images.length - 1) $("#next-btn").css("display", "block");
-        // if the images found
-        if (data && data.images.length) {
-            $("#carousel-image").attr("src", data.images[imageIndex].image);
-            // if there is no image associated with the item
-        } else {
-            $("#carousel-image").attr({ "src": "/static/images/icons/add_image_white.png", "class": "add-image" })
-                .css({ "height": "40vh", "margin": "20vh auto" });
-            $("#next-btn").css("display", "none");
-            $("#prev-btn").css("display", "none");
-        }
+
+        setTimeout(function () {
+            if (data && data.images.length) {
+                $("#carousel-image").attr("src", data.images[imageIndex].image);
+            } else {
+                $("#carousel-image").attr({
+                    "src": "/static/images/icons/add_image_white.png",
+                    "class": "add-image"
+                }).css({
+                    "height": "40vh",
+                    "margin": "20vh auto"
+                });
+                $("#next-btn").css("display", "none");
+                $("#prev-btn").css("display", "none");
+            }
+        }, 500); 
     }
 
     // ------------------EVENT HANDLERS--------------------

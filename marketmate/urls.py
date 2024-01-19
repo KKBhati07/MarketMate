@@ -15,11 +15,12 @@ from .admin import urls as admin_urls
 from .views import ResourceNotFoundView
 
 # importing Home view
-from .views import Home
+from .views import Home,Cover
 
 urlpatterns = [
     path('admin/', include(admin_urls)),
-    path('', Home.as_view(),name="home"),
+    path('', Cover.as_view(),name="cover"),
+    path('home/', Home.as_view(),name="home"),
     path('users/', include(users_urls)),
     path("listings/", include(listings_urls)),
     path("api/", include(api_urls)),

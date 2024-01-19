@@ -37,6 +37,14 @@
     object-fit: contain;
 }
 
+#carousel-image {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.add-image {
+    transition: height 0.5s ease-in-out, margin 0.5s ease-in-out;
+}
+
 #prev-btn,#next-btn {
     position: absolute;
     width: 50px;
@@ -141,10 +149,7 @@
     }
     .desc-container{
         width: 98vw;
-    }
-    
-    
-    
+    }  
 
 }
 

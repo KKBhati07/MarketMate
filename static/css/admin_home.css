@@ -1,46 +1,49 @@
-.root{
+.root {
     width: 100%;
     height: 90vh;
     display: flex;
 }
+
 /* -----------HOVER CLASSES------------- */
-.user-container:hover{
-    border: 2px solid var(--primaryColor);
+.user-container:hover {
+    border: 2px solid var(--hoverColor);
     scale: 1.03;
 }
 
-.user-container:hover p{
+.user-container:hover p {
     color: var(--primaryColor);
     font-weight: 700;
 }
-.listing-container:hover{
-    border: 2px solid var(--primaryColor);
+
+.listing-container:hover {
+    border: 2px solid var(--hoverColor);
     scale: 1.03;
 
 }
 
-.listing-container:hover .item-title    {
+.listing-container:hover .item-title {
     color: var(--primaryColor);
 }
 
 
-.listing-container>img:hover{
+.listing-container>img:hover {
     scale: 1.1;
 }
 
-.add-btn:hover{
+.add-btn:hover {
     background-color: var(--primaryColor);
 }
-.add-btn:hover>p{
+
+.add-btn:hover>p {
     color: white;
 }
 
-.logout-btn:hover{
+.logout-btn:hover {
     background-color: var(--primaryColor);
-    
+
 }
 
-.logout-btn:hover p{
+.logout-btn:hover p {
 
     color: white;
 }
@@ -48,14 +51,14 @@
 
 /* -------------ASIDE SECTION------------ */
 
-.aside-section{
+.aside-section {
     padding-top: 10vh;
     position: relative;
     width: 25vw;
     height: 100%;
 }
 
-.menu-list{
+.menu-list {
     margin-left: 10%;
     margin-top: 10px;
     border-radius: 10px;
@@ -71,7 +74,7 @@
     margin-top: 20px;
 }
 
-.menu-list>.icon-container{
+.menu-list>.icon-container {
     transition: 0.3s all ease-in-out;
     border: 1px solid var(--primaryColor);
     border-radius: 15px;
@@ -97,7 +100,8 @@
     transition: 0.3s all ease-in-out;
     width: 20px;
 }
-.logout-btn{
+
+.logout-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,13 +115,13 @@
     text-decoration: none;
 }
 
-.logout-btn>p{
+.logout-btn>p {
     color: var(--primaryColor);
     font-weight: 700;
 }
 
 
-.menu-listt{
+.menu-listt {
     width: 100%;
     height: 8vh;
     border-bottom: solid 2px var(--borderColor);
@@ -128,7 +132,7 @@
     cursor: pointer;
 }
 
-.divider{
+.divider {
     width: 0;
     height: 80vh;
     border-right: 1px solid var(--primaryColor);
@@ -139,17 +143,17 @@
 
 /* -------------MAIN SECTION--------------- */
 
-.main-container{
+.main-container {
     position: relative;
     width: 75vw;
     height: 100%;
     padding: 50px;
-    overflow: scroll;  
+    overflow: scroll;
 }
 
 /* ---------FOR USER-------- */
 
-.user-container{
+.user-container {
     transition: all 0.3s ease-in-out;
     display: flex;
     justify-content: space-between;
@@ -162,11 +166,12 @@
 
 }
 
-.user-container>p{
+.user-container>p {
     cursor: pointer;
     margin-left: 10px;
 }
-.user-container>img{
+
+.user-container>img {
     width: 40px;
     height: 40px;
     margin-right: 10px;
@@ -174,7 +179,7 @@
 }
 
 /* add user btn */
-.add-btn{
+.add-btn {
     width: 120px;
     height: 45px;
     border: 2px solid var(--primaryColor);
@@ -186,7 +191,7 @@
     align-items: center;
 }
 
-.add-btn>p{
+.add-btn>p {
     cursor: pointer;
     position: relative;
     top: 25%;
@@ -196,7 +201,7 @@
 }
 
 /* ------FOR LISTINGS------- */
-.listing-container{
+.listing-container {
     margin-top: 10px;
     padding-left: 10px;
     display: flex;
@@ -209,19 +214,20 @@
     transition: all 0.3s ease-in-out;
 }
 
-.listing-container>div{
+.listing-container>div {
     width: 50vw;
     height: 10vh;
 }
 
-.listing-container>img{
+.listing-container>img {
     width: 40px;
     cursor: pointer;
     height: 40px;
     transition: all 0.3s ease-in-out;
     margin-right: 10px;
 }
-.item-title{
+
+.item-title {
     cursor: pointer;
     font-size: 1.1rem;
     font-weight: 700;
@@ -229,7 +235,7 @@
 
 
 /* -------------------DELETE USER POPUP----------- */
-.delete-popup-container{
+.delete-popup-container {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -242,7 +248,7 @@
     left: 0;
 }
 
-.delete-popup{
+.delete-popup {
     background-color: var(--primaryColor);
     border-radius: 10px;
     padding: 10px;
@@ -250,14 +256,16 @@
     width: 25vw;
     height: 25vh;
     position: relative;
-    
+
 }
-.delete-popup>p{
+
+.delete-popup>p {
     font-size: 1.3rem;
     color: white;
     font-weight: 800;
 }
-.yes-no-container{
+
+.yes-no-container {
     padding: 5px;
 
     position: absolute;
@@ -267,9 +275,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(to right, red, grey); 
+    background: linear-gradient(to right, red, grey);
 }
-.yes-no-container>p{
+
+.yes-no-container>p {
     font-size: 1.1rem;
     color: white;
     cursor: pointer;

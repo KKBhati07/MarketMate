@@ -1,23 +1,23 @@
 /* -------------HOVER, FOCUS CLASSES------- */
 .images-label:hover, form>textarea:hover, form>input:hover, form>select:hover{
-    border: 1px solid var(--primaryColor);
+    border: 1px solid var(--hoverColor);
     
 }
 .submit-btn:hover{
     border: 2px solid var(--primaryColor);
     background-color: white;
     color: var(--primaryColor);
-    font-weight: 8000;
+    font-weight: 800;
 }
 
 .images-label:focus, form>textarea:focus, form>input:focus, form>select:focus{
-    border: 1px solid var(--primaryColor); 
+    border: 1px solid var(--hoverColor); 
 }
 
 /* ---------------ROOT-------------------- */
 .root{
     width: 100vw;
-    height: 90vh;
+    height: 100vh;
     padding-left: 50px;
     display: flex;
     align-items: center;
@@ -32,7 +32,6 @@
 
 form{
     width: 50vw;
-    height: 80vh;  
 }
 
 form>label{
@@ -75,6 +74,7 @@ form>textarea{
     background-color: var(--primaryColor);
     color: white;
     border: none;
+    cursor: pointer;
 }
 
 /* for mobile screens */

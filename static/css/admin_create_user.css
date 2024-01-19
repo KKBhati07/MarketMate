@@ -1,11 +1,11 @@
 /* -------------HOVER CLASSES--------------- */
 
 form>input:hover {
-    border: 1px solid var(--primaryColor);
+    border: 1px solid var(--hoverColor);
 }
 
 form>input:focus {
-    border: 1px solid var(--primaryColor);
+    border: 1px solid var(--hoverColor);
 }
 
 .submit-btn:hover {
@@ -33,6 +33,7 @@ form {
 }
 
 form>p {
+    cursor: default;
     font-size: 1.5rem;
     text-align: center;
     color: var(--primaryColor);
@@ -52,6 +53,7 @@ form>input {
 }
 
 .submit-btn {
+    cursor: pointer;
     padding-left: 0;
     border: none;
     color: white;

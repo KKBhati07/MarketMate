@@ -1,18 +1,19 @@
 /* ----------HOVER CLASSES-------- */
 
 .on-listing-hover:hover {
-    border: 1px solid var(--primaryColor);
-    box-shadow: none;
+    border: 1px solid var(--hoverColor);
+    color: var(--hoverColor);
+    box-shadow: 0 0 20px 3px;
 }
 
 .on-listing-hover:hover .item-image {
-    border: 1px solid var(--primaryColor);
+    border: 1px solid var(--hoverColor);
 }
 
 .button-hover:hover {
     filter: brightness(0.9);
     border: 1px solid var(--primaryColor);
-    background-color: var(--primaryColor);
+    background-color: var(--primaryColor);  
     color: white;
 }
 

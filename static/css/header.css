@@ -1,6 +1,12 @@
 /* --------------------------HOVER CLASSES------------------------ */
 .navigation-list>li:hover {
     box-shadow: none;
+    border: 1px solid var(--hoverColor);
+}
+
+.navigation-list>li:hover a {
+    color: var(--hoverColor);
+
 }
 
 
@@ -14,7 +20,9 @@ header {
     background-color: rgba(231, 231, 231, 0.5);
     z-index: 2;
     align-items: center;
+    min-height: 50px;
     padding-top: 10px;
+    transition: all 0.3s ease-in-out;
 }
 
 header a {

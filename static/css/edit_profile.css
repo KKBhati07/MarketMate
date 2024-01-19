@@ -1,12 +1,12 @@
 /* --------------------HOVER, FOCUS CLASSES------------ */
 form>input:hover,
 .profile-pic-label:hover {
-    border: 1px solid var(--primaryColor);
+    border: 1px solid var(--hoverColor);
 }
 
 form>input:focus,
 .profile-pic-label:focus {
-    border: 2px solid var(--buttonColor);
+    border: 2px solid var(--hoverColor);
 }
 
 .user-profile-pic:hover {
@@ -25,13 +25,11 @@ form>input:focus,
 .root {
     display: flex;
     justify-content: space-between;
-
 }
 
 /* -----------------EDIT FORM---------------- */
 form {
     width: 50vw;
-    height: 80vh;
     margin-left: 20px;
 }
 
@@ -73,14 +71,13 @@ form>label {
     text-align: center;
     width: 650px;
     padding-top: 5px;
-
 }
 
 .submit-btn {
     border: none;
+    cursor: pointer;
     color: white;
     background-color: var(--primaryColor);
-
 }
 
 /* --------------------PROFILE PIC---------- */
@@ -98,10 +95,15 @@ form>label {
     .root {
         flex-direction: column-reverse;
         width: 100vw;
-        height: 90vh;
+        height: auto;
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .user-profile-pic {
+        height: 150px;
+        width: 150px;
     }
 
     form {
@@ -111,6 +113,10 @@ form>label {
     form>input,
     .profile-pic-label {
         width: 90vw;
+    }
+
+    .submit-btn {
+        margin-bottom: 20px;
     }
 
 

@@ -1,7 +1,7 @@
 /* Declaring variables to root */
 :root {
     --fontFamily: Consolas;
-    --hoverBorder:rgb(1, 71, 163);
+    --hoverColor:rgb(255, 102, 0);
     --itemColor: rgb(82, 82, 82);
     --headerColor: rgb(68, 115, 177);
     --backgroundColor: rgb(255, 255, 255);

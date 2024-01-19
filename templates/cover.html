@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block static %}
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static "/css/cover.css" %}">
+    <script defer src="{% static "/js/cover.js" %}"></script>
+
+
+
+
+{% endblock static %}
+
+{% block title %}
+
+    <title>THE MM</title>
+{% endblock title %}
+
+{% block content %}
+
+    <main class="main-container" >
+        <div class="top-bar" >
+            <div class="categories-btn"  >
+                {% comment %} <p class="categories-btn" >Caegories</p> {% endcomment %}
+                <p >
+                    <img src="{% static "/images/icons/menu.png" %}" alt="">
+                    
+                    Caegories</p>
+
+                <div class="categories" id="categories" >
+                    <ul class="categories-ul categories-hover" >
+                        <li id="all" value="all" >
+                            <img id="all" src="{% static "/images/icons/all.png" %}" alt="">
+                            
+                            All</li>
+                            <li id="cars" value="cars" >
+                            <img id="cars" src="{% static "/images/icons/car.png" %}" alt="">
+                            
+                            
+                            
+                            Cars</li>
+                            <li id="mobile" value="mobile phones" >
+                            <img id="mobile" src="{% static "/images/icons/smartphone.png" %}" alt="">
+                            
+                            
+                            Mobile Phones</li>
+                            <li id="electronics" value="electronics" >
+                            <img id="electronics" src="{% static "/images/icons/electronics.png" %}" alt="">
+                            
+                            Electronics</li>
+                            <li id="furniture" value="furniture" >
+                            <img id="furniture" src="{% static "/images/icons/furniture.png" %}" alt="">
+                            
+                            
+                            Furniture</li>
+                            <li id="others" value="others" >
+                            <img id="others" src="{% static "/images/icons/others.png" %}" alt="">
+                            
+                            
+                            
+                            Others</li>
+                    </ul>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <p class="heading">Platfrom to sell and Buy used products!</p>
+
+        <div class="search-container">
+            <div class="inner-div">
+                <input type="text"  id="" class="item-search">
+                <p class="search-text" >Search</p>
+            </div>
+
+
+    </main>
+    
+{% endblock content %}

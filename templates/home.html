@@ -3,18 +3,18 @@
 {% comment %} block for static files {% endcomment %}
 {% block static %}
 
+
+<!-- for static -->
+{% load static %}
+<link rel="stylesheet" href="{% static "/css/home.css" %}">
+<script src="{% static "/js/home.js" %}" defer ></script>
+
+{% endblock static %}
+
 <!-- for title -->
 {% block title %}
 <title> THE MM </title>
 {% endblock title %}
-
-<!-- for static -->
-{% load static %}
-    <link rel="stylesheet" href="{% static "/css/home.css" %}">
-    <script src="{% static "/js/home.js" %}" defer ></script>
-
-{% endblock static %}
-
 
 
 
@@ -37,7 +37,7 @@
     <div class="search-container">
         <div class="inner-div">
             <input type="text"  id="" class="item-search">
-            <img src="{% static "/images/icons/search-white.png" %}" class="search-icon" alt="">
+            <p class="search-text" >Search</p>
         </div>
     </div>
 
@@ -53,6 +53,9 @@
 
 
 </div>
+
+<p id="category-selected" >{{category}}</p>
+<p id="search-query" >{{search}}</p>
 
 
 

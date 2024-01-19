@@ -1,9 +1,9 @@
 /* -------------HOVER CLASSES--------------- */
 form>input:hover{
-    border: 1px solid var(--primaryColor);
+    border: 1px solid var(--hoverColor);
 }
 form>input:focus{
-    border: 1px solid var(--primaryColor);
+    border: 1px solid var(--hoverColor);
 }
 
 .submit-btn:hover{
@@ -52,6 +52,7 @@ form>input{
     border: none;
     padding-left: 0px;
     color: white;
+    cursor: pointer;
     background-color: var(--primaryColor);
 }
 

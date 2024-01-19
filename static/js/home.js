@@ -1,12 +1,21 @@
 {
     // calling onload function
-    let previousSelected="all";
+    let previousSelected = "all";
     onLoad();
 
 
     async function onLoad() {
-        fetchItems();
-        setStyle("all")
+        let search = $("#search-query").text();
+        if (search) {
+            fetchItemsQuery(search);
+            $(".item-search").val(search);
+            return;
+        }
+        let category = $("#category-selected").text();
+        fetchItemsQuery(category, true);
+        previousSelected = category;
+        setStyle(category);
+
     }
 
     // to fetch the items form the server
@@ -18,11 +27,11 @@
     }
 
     // to convert the price into currency format
-    function formatPrice(price){
-        return new Intl.NumberFormat("en-IN",{
-            style:"currency",
-            currency:"INR"
-        }).format(price).replace(".00","");
+    function formatPrice(price) {
+        return new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR"
+        }).format(price).replace(".00", "");
     }
 
     // to render the items on DOM
@@ -44,8 +53,8 @@
     async function fetchItemsQuery(query, filter) {
         let data;
         if (filter) {
-            if(query==="all") {
-                onLoad(); return;
+            if (query == "all") {
+                fetchItems(); return;
             }
             let response = await fetch(`/api/listings/filter/?query=${query}`);
             data = await response.json();
@@ -56,10 +65,18 @@
         renderItems(data.data);
     }
 
-    function setStyle(category){
-        $(`#${previousSelected}`).css({border:"none",backgroundColor:"rgba(0,0,0,0)",color:"var(--primaryColor)", "fontWeight":"400"});
-        $(`#${category}`).css({border:"2px solid var(--primaryColor)",backgroundColor:"var(--primaryColor)",color:"white", "fontWeight":"800"});
-        previousSelected=category;
+    function setStyle(category) {
+        let docWidth=$(document).width();
+        if(docWidth<768){
+            $(`#${previousSelected}`).css({ border: "1px solid var(--primaryColor)", backgroundColor: "rgba(0,0,0,0)", boxShadow:"0 0 5px 1px", color: "var(--primaryColor)", "fontWeight": "400" });
+            $(`#${category}`).css({ border: "1px solid var(--hoverColor)", color: "var(--hoverColor)", "fontWeight": "800" });
+        }else{
+            $(`#${previousSelected}`).css({ border: "none", backgroundColor: "rgba(0,0,0,0)", boxShadow:"none", color: "var(--primaryColor)", "fontWeight": "400" });
+            $(`#${previousSelected}`).removeClass('selected');
+            $(`#${category}`).css({ color: "var(--hoverColor)",borderBottom: "2px solid var(--hoverColor)", "fontWeight": "800" });
+            $(`#${category}`).addClass('selected');
+        }
+        previousSelected = category;
     }
 
     // --------------EVENT HANDLERS----------------
@@ -90,15 +107,42 @@
     }
 
     function searchBtnClickHandler() {
-        fetchItemsQuery($(".item-search").val());
+        let val = $(".item-search").val();
+        if (!val) return;
+        fetchItemsQuery(val);
+    }
+
+    function categoriesMouseOverHandler() {
+        if (this.id == previousSelected) return;
+        $(this).css({ "color": "var(--hoverColor)", "fontWeight": 800 })
+
+    }
+    function categoriesMouseoutHandler() {
+        if (this.id == previousSelected) return;
+        $(this).css({ "color": "var(--primaryColor)", "fontWeight": 400 })
+
+    }
+
+    function searchInputFocusHandler() {
+        $(".search-container>div").css("border", "2px solid var(--hoverColor)")
+        $(".search-text").css("backgroundColor", "var(--hoverColor)")
+    }
+    function searchInputBlurHandler() {
+        $(".search-container>div").css("border", "2px solid var(--primaryColor)")
+        $(".search-text").css("backgroundColor", "var(--primaryColor)")
     }
 
 
     // --------------EVENT LISTENERS----------------
     $(".categories>li").each((index, item) => {
         $(item).click(categoriesClickHandler);
+        $(item).on("mouseover", categoriesMouseOverHandler);
+        $(item).on("mouseout", categoriesMouseoutHandler);
     });
+
     $(".items-container").on("click", ".item-container", itemClickHandler);
+    $(".item-search").on("focus", searchInputFocusHandler);
+    $(".item-search").on("blur", searchInputBlurHandler);
     $(".item-search").on("keyup", searchInputEnterPressHandler);
-    $(".search-icon").click(searchBtnClickHandler);
+    $(".search-text").click(searchBtnClickHandler);
 }
