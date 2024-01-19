@@ -5,7 +5,8 @@
     background-color: rgba(202, 202, 202, 0);
 }
 .item-container:hover{
-    box-shadow: 0 0 20px 3px;
+    border: 2px solid var(--hoverColor);
+    box-shadow: none;
     color: var(--hoverColor);
 }
 

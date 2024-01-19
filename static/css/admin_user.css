@@ -3,7 +3,7 @@
 .on-listing-hover:hover {
     border: 1px solid var(--hoverColor);
     color: var(--hoverColor);
-    box-shadow: 0 0 20px 3px;
+    box-shadow: 0 0 0px 2px;
 }
 
 .on-listing-hover:hover .item-image {

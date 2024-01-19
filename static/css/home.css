@@ -1,8 +1,8 @@
 /* ----------HOVER CLASSES-------- */
 
 .on-listing-hover:hover {
-    border: 1px solid var(--hoverColor);
-    box-shadow: 0 0 20px 3px;
+    border: 2px solid var(--hoverColor);
+    box-shadow: none;
     color: var(--hoverColor);
     background-color: rgba(202, 202, 202, 0);
 }
@@ -177,7 +177,7 @@
     margin: 35px;
     height: 300px;
     padding: 10px;
-    box-shadow: 0 0 10px 1px;
+    box-shadow: 0 0 5px 2px;
 }
 
 .item-container>img {
