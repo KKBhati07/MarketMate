@@ -15,6 +15,10 @@
 
 /* TO CUSTOMIZE TOASTR NOTIFICATIONS */
 
+body{
+    background-color: #f7f7f7;
+}
+
 #toast-container>div.toast {
     opacity: 1;
 }

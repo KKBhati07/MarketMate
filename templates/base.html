@@ -12,11 +12,11 @@
 
     
     {% comment %} <!-- INCLUDING JQUERY --> {% endcomment %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="{% static "/js/dependencies/jquery-3.7.1.min.js" %}"></script>
     
     {% comment %} <!-- INCLUDING TOASTR LIB--> {% endcomment %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="{% static "/css/toastr.css" %}">
+    <script src="{% static "/js/dependencies/toastr.js" %}"></script>
     
     {% comment %} BASE {% endcomment %}
     <link rel="stylesheet" href="{% static "/css/base.css" %}">

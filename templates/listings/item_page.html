@@ -11,6 +11,7 @@
 {% block static %}
     <link rel="stylesheet" href="{% static "/css/listing_item_page.css" %}">
     <script defer src="{% static "/js/listing_item_page.js" %}"></script>
+    <script defer src="{% static "/js/zoom.js" %}"></script>
 {% endblock static %}
 
 <!-- content -->
@@ -20,12 +21,30 @@
         <p hidden class="get-id" id="{{data.item.id}}" ></p>
         <!-- ---------------------IMAGES------------------- -->
         <div class="images-container hover-image">
-            {% comment %} <button id="prevBtn">Previous</button> {% endcomment %}
-            <img id="prev-btn" src="{% static "/images/icons/prev_white.png" %}" alt="">
-            <img id="carousel-image" src="" alt="">
+
+            <div class="zoom" >
+
+                {% comment %} <button id="prevBtn">Previous</button> {% endcomment %}
+                <div class="original" >
+                    
+                    <img id="target" class="carousel-image" src="" alt="" >
+                    <!-- <img id="carousel-image" src="" alt="" > -->
+                </div>
+                
+                <div class="viewer">
+                    <img src="" alt="">
+                    
+                    
+                </div>
+                <div class="magnifier"></div>
+            </div>
+            <img class="prev-btn" src="{% static "/images/icons/prev.png" %}" alt="">
             {% comment %} <button id="nextBtn">Next</button> {% endcomment %}
-            <img id="next-btn" src="{% static "/images/icons/next_white.png" %}" alt="">
+            <img class="next-btn" src="{% static "/images/icons/next.png" %}" alt="">
+            
+            
         </div>
+        
         
         <!-- ------------------------DETAILS----------------- -->
         <div class="details-container">
@@ -48,6 +67,13 @@
         </div>
         
         
+    </div>
+    <div class="large-image-container" >
+            
+        <img class="close-btn" src="{% static "/images/icons/close-white.png" %}" alt="">
+        <img id="large-image" src="" alt="">
+        <img class="prev-btn" src="{% static "/images/icons/prev-white.png" %}" alt="">
+        <img class="next-btn" src="{% static "/images/icons/next-white.png" %}" alt="">
     </div>
 
 

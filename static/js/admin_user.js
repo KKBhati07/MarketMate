@@ -1,4 +1,18 @@
 {
+
+    onLoad();
+
+    function onLoad() {
+        $('.item-container').mouseenter(function() {
+            const targetItem = $(this);
+            $('.item-container').not(targetItem).css('transform', 'scale(0.9)');
+          });
+      
+          $('.item-container').mouseleave(function() {
+            $('.item-container').css('transform', 'scale(1)');
+          });
+        
+    }
     // -----------------------EVENT HANDLERS---------------------
 
     function onCopyBtnClickHandler() {
@@ -44,6 +58,7 @@
     function onDeletePopupClickListener(event) {
         event.stopPropagation();
     }
+      
 
 
     // -----------------------EVENT LISTENERS---------------------

@@ -112,13 +112,13 @@
 
     //to set the menu icon theme
     function setTheme(set, remove) {
-        $(`#${set}`).css("border", "1px solid var(--primaryColor)");
+        $(`#${set}`).css({"border": "1px solid var(--primaryColor)",backgroundColor:"white"});
         $(`#${set}>div`).css("backgroundColor", "var(--primaryColor)");
         $(`#${set} img`).attr("src", `/static/images/icons/${set}_white.png`);
 
         //to remove the theme form items
         if (remove) {
-            $(`#${remove}`).css("border", "none");
+            $(`#${remove}`).css({"border": "none",backgroundColor:"#f7f7f7"});
             $(`#${remove}>div`).css("backgroundColor", "white");
             $(`#${remove} img`).attr("src", `/static/images/icons/${remove}.png`);
         }
@@ -131,21 +131,24 @@
         window.location.href = "/admin/users/create/";
     }
 
+    // to handle user click on item
     function userItemClickHandler(event) {
         let id = event.target.id;
         window.location.href = `/admin/users/${id.split("--")[1]}`;
     }
 
+    // to delete
     function onDeleteUserBtnClickHandler(event) {
         event.stopPropagation();
         event.preventDefault();
         $(".delete-popup-container").css("display", "flex");
         $(".option-yes").attr("id", event.target.id);
     }
+
+
     function onNoClickHandler() {
         $(".delete-popup-container").css("display", "none");
     }
-
 
     function onYesClickHandler(event) {
         let id = event.target.id;

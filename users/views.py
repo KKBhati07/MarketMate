@@ -295,6 +295,8 @@ class UserView(View):
         else:
             try:
                 user=User.objects.get(id=id)
+                if user.profile_picture:
+                    user.profile_picture=generate_signed_url(user.profile_picture,userProfile=True)
                 listings=Listing.objects.filter(user_id=user)
                 data={}
                 for listing in listings:

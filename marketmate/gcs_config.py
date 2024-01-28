@@ -3,6 +3,9 @@ from google.cloud import storage
 from google.oauth2 import service_account
 import datetime
 
+#importing this for development purpose only
+from .credentials import credentials,gcs_bucket_name
+
 # Retrieve bucket name and credentials from environment variables
 bucket_name = os.environ.get('GCS_BUCKET_NAME')
 project_id = os.environ.get('GCS_PROJECT_ID')
@@ -25,8 +28,9 @@ credentials_dict={
   "client_x509_cert_url": client_cert_url,
   "universe_domain": "googleapis.com"
 }
+bucket_name = gcs_bucket_name
 
-credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+credentials = service_account.Credentials.from_service_account_info(credentials)
 # Create storage client
 storage_client = storage.Client(
     credentials=credentials

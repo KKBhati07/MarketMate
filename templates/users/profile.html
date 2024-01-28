@@ -41,6 +41,9 @@
                         <img src="{% if image %}{{image.image}}{% else %}{% static "/images/icons/image.png" %} {% endif %}" id="{{listing.id}}" alt="">
                         <p class="title" id="{{listing.id}}" >{{listing.title}}</p>
                         <p class="price" id="{{listing.id}}" >{{listing.price | format_currency }} </p>
+                        <div id={{listing.id}} class="description" >
+                            <p id={{listing.id}} >{{listing.description}}</p>
+                        </div>
                     </div>
                 {% endfor %}
             {% else %}

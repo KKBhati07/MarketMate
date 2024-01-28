@@ -16,14 +16,27 @@
         previousSelected = category;
         setStyle(category);
 
+        // for items animation
+        $('.main-container').on('mouseenter', '.item-container', function () {
+            const targetItem = $(this);
+            $('.item-container').not(targetItem).css('transform', 'scale(0.95)');
+        });
+
+        $('.main-container').on('mouseleave', '.item-container', function () {
+            $('.item-container').css('transform', 'scale(1)');
+        });
+
+
     }
 
     // to fetch the items form the server
     async function fetchItems() {
+        $(".items-container").html(`<div class="loading-spinner" id="loading-spinner"></div>`);
+        showLoadingSpinner();
         let response = await fetch(`/api/listings/fetch/?all=True`);
         let data = await response.json();
-        renderItems(data.data)
 
+        renderItems(data.data)
     }
 
     // to convert the price into currency format
@@ -36,21 +49,40 @@
 
     // to render the items on DOM
     function renderItems(data) {
-        $(".items-container").html("");
-        data.forEach(item => {
+        hideLoadingSpinner();
+        //if no items found
+        if(!data.length){
+            $(".items-container").append($("<p>").addClass("no-items-message").text("No items found! 😞"));
+            return;
+        }
+
+        for (let i = data.length - 1; i >= 0; i--) {
+            const item = data[i];
             let div = $("<div>").addClass("item-container on-listing-hover").attr("id", item.id);
             let img = $("<img>").attr("id", item.id).addClass("image-hover");
             if (item.images[0]) img.attr("src", item.images[0].image);
             else img.attr("src", "static/images/icons/image.png");
             let title = $("<p>").addClass("title").text(item.title).attr("id", item.id);
             let price = $("<p>").addClass("price").text(formatPrice(item.price)).attr("id", item.id);
-            div.append(img, title, price);
-            $(".items-container").prepend(div);
-        });
+            let descriptionDiv = $("<div>").addClass("description").attr("id", item.id);
+            let description = $("<p>").text(item.description).attr("id", item.id);
+
+
+            descriptionDiv.append(description)
+            div.append(img, title, price, descriptionDiv);
+
+            setTimeout(() => {
+                div.appendTo(".items-container");
+                div[0].offsetHeight;
+                div.addClass("fade-in");
+            }, (data.length - 1 - i) * 250);
+        }
     }
 
     //to the the item according to query and filter
     async function fetchItemsQuery(query, filter) {
+        $(".items-container").html(`<div class="loading-spinner" id="loading-spinner"></div>`);
+        showLoadingSpinner();
         let data;
         if (filter) {
             if (query == "all") {
@@ -62,25 +94,37 @@
             let response = await fetch(`/api/listings/search/?query=${query}`);
             data = await response.json();
         }
-        renderItems(data.data);
+            renderItems(data.data);
+
     }
 
+    // to set the category style
     function setStyle(category) {
-        let docWidth=$(document).width();
-        if(docWidth<768){
-            $(`#${previousSelected}`).css({ border: "1px solid var(--primaryColor)", backgroundColor: "rgba(0,0,0,0)", boxShadow:"0 0 5px 1px", color: "var(--primaryColor)", "fontWeight": "400" });
+        let docWidth = $(document).width();
+        if (docWidth < 768) {
+            $(`#${previousSelected}`).css({ border: "1px solid var(--primaryColor)", backgroundColor: "rgba(0,0,0,0)", boxShadow: "0 0 5px 1px", color: "var(--primaryColor)", "fontWeight": "400" });
             $(`#${category}`).css({ border: "1px solid var(--hoverColor)", color: "var(--hoverColor)", "fontWeight": "800" });
-        }else{
-            $(`#${previousSelected}`).css({ border: "none", backgroundColor: "rgba(0,0,0,0)", boxShadow:"none", color: "var(--primaryColor)", "fontWeight": "400" });
+        } else {
+            $(`#${previousSelected}`).css({ border: "none", backgroundColor: "rgba(0,0,0,0)", boxShadow: "none", color: "var(--primaryColor)", "fontWeight": "400" });
             $(`#${previousSelected}`).removeClass('selected');
-            $(`#${category}`).css({ color: "var(--hoverColor)",borderBottom: "2px solid var(--hoverColor)", "fontWeight": "800" });
+            $(`#${category}`).css({ color: "var(--hoverColor)", borderBottom: "2px solid var(--hoverColor)", "fontWeight": "800" });
             $(`#${category}`).addClass('selected');
         }
         previousSelected = category;
     }
 
+    // to show the loading spinner
+    function showLoadingSpinner() {
+        $("#loading-spinner").show();
+    }
+//    to hide the loading spinner 
+    function hideLoadingSpinner() {
+        $("#loading-spinner").hide();
+    }
+
     // --------------EVENT HANDLERS----------------
 
+    // on click on the items
     function itemClickHandler(event) {
         let id = event.target.id;
         if (id) window.location.href = `/listings/fetch/${id}`;
