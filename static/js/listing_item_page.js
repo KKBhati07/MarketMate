@@ -97,6 +97,12 @@
     function arrowBtnClickHandler(e){
         if (e.which === 37) prevBtnClickHandler();
         else if (e.which === 39) nextBtnClickHandler();
+        else if (e.which === 70) {
+            if($(".large-image-container").css("display") === "none") onImageClickHandler();
+            else if($(".large-image-container").css("display") === "flex") closeBtnClickHandler();
+        }
+        else if (e.which === 8 && $(".large-image-container").css("display") === "flex") closeBtnClickHandler();
+
     }
     // ------------------EVENT LISTENERS--------------------
 
