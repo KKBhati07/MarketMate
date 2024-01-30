@@ -79,6 +79,23 @@ Market Mate is an online marketplace application similar to OLX, designed to fac
 
 ## Screenshots
 
+![MM Screenshot](./static/images/screenshots/1.png)
+![MM Screenshot](./static/images/screenshots/2.png)
+![MM Screenshot](./static/images/screenshots/3.png) ![MM Screenshot](./static/images/screenshots/4.png)
+![MM Screenshot](./static/images/screenshots/5.png) ![MM Screenshot](./static/images/screenshots/6.png)
+![MM Screenshot](./static/images/screenshots/7.png)
+![MM Screenshot](./static/images/screenshots/8.png)
+![MM Screenshot](./static/images/screenshots/9.png)
+![MM Screenshot](./static/images/screenshots/10.png)
+![MM Screenshot](./static/images/screenshots/11.png)
+![MM Screenshot](./static/images/screenshots/12.png)
+![MM Screenshot](./static/images/screenshots/13.png)
+![MM Screenshot](./static/images/screenshots/14.png)
+![MM Screenshot](./static/images/screenshots/15.png)
+![MM Screenshot](./static/images/screenshots/17.png)
+![MM Screenshot](./static/images/screenshots/18.png)
+![MM Screenshot](./static/images/screenshots/19.png)
+![MM Screenshot](./static/images/screenshots/20.png)
 
 
 
