@@ -84,10 +84,11 @@
             }
             document.getElementById(`content-${message.senderId}`).append($("<p>").addClass("message-other").text(message.message).get(0));
         }
-
+        
         setTimeout(() => {
             $(".chatbox").css("height", "400px");
         }, 0);
+        scrollToBottom();
     }
 
     // to render new chat room into chat rooms
@@ -126,6 +127,11 @@
             $(".chatrooms-box").append(chatroom);
         });
 
+    }
+
+    function scrollToBottom() {
+        var $content = $('.content');
+        $content.scrollTop($content[0].scrollHeight);
     }
 
 
@@ -194,6 +200,7 @@
         document.getElementById(`content-${receiver}`).append($("<p>").addClass("message-self").text(message).get(0));
         $(`#content-${receiver}`).append($("<p>").addClass("message-self").text(message));
         document.getElementById(`input_${receiver}`).value = "";
+        scrollToBottom();
     }
 
     function onChatBtnClickHandler(e, fromChatRoom) {
@@ -223,6 +230,7 @@
             $(".chatbox").css("height", "400px");
 
         }, 0);
+        scrollToBottom();
 
 
     }
