@@ -4,6 +4,7 @@
     onLoad();
     //to load the users on loading of the script
     function onLoad() {
+        changeChatBubblePosition();
         $.ajax({
             type: "get",
             url: "/admin/users/fetch/",
@@ -16,6 +17,10 @@
             }
         });
 
+    }
+
+    function changeChatBubblePosition(){
+        $(".chat-bubble").css({"bottom":"70px"})
     }
 
     //to render the users on the DOM

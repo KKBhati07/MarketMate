@@ -1,0 +1,17 @@
+{% load static %}
+
+{% comment %} -----------------CHAT ROOM-------------------- {% endcomment %}
+
+{% if request.user.is_authenticated %}
+<div class="chat-bubble" >
+    <img src="{% static "/images/icons/chat.png"%}" alt="">
+</div>
+
+<div class="chatroom-container" >
+    <p style="display:none" id="user-id" >{% if request.user.id %}{{request.user.id}}{% else %}{% endif %}</p>
+    
+    <div class="chatrooms-box" >
+        <p class="chats-heading" >CHATS</p>
+    </div>
+</div>
+{% endif %}

@@ -107,7 +107,7 @@
     // ------------------EVENT LISTENERS--------------------
 
     $(".next-btn").click(nextBtnClickHandler);
-    $(".close-btn").click(closeBtnClickHandler);
+    $(".img-close-btn").click(closeBtnClickHandler);
     $(".original").click(onImageClickHandler);
     $(".prev-btn").click(prevBtnClickHandler);
     $(".notify-user").click(onNotifyUserClickHandler);

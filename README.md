@@ -25,7 +25,11 @@ Market Mate is an online marketplace application similar to OLX, designed to fac
 - **Details View:** In-depth view of each product with images and description.
 - **Contact Seller:** Option to contact the seller.
 
-### 5. User Profiles
+### 5. Chat Functionality
+
+- **Real-time Communication:** Integrated chat feature for buyers and sellers to communicate.
+
+### 6. User Profiles
 
 - **User Profiles:** Users can view their profiles and manage their listings.
 - **Profile Editing:** Allows users to update their information.
@@ -34,9 +38,10 @@ Market Mate is an online marketplace application similar to OLX, designed to fac
 ## Technologies Used
 
 - Python and Django for backend development.
+- Channels for chat functionality.
 - Django rest framework for API development.
 - JavaScript, HTML and CSS for frontend.
-- Database: MySql
+- Databases: MySql, and SQlite
 
 ## Setup and Installation
 
@@ -44,7 +49,7 @@ Market Mate is an online marketplace application similar to OLX, designed to fac
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/your-repo.git
+    git clone https://github.com/KKBhati07/MarketMate.git
     ```
 
 2. Navigate to the project directory:
@@ -87,8 +92,10 @@ Market Mate is an online marketplace application similar to OLX, designed to fac
 ![MM Screenshot](./static/images/screenshots/13.png)
 ![MM Screenshot](./static/images/screenshots/14.png)
 ![MM Screenshot](./static/images/screenshots/15.png)
-![MM Screenshot](./static/images/screenshots/16.png)
 ![MM Screenshot](./static/images/screenshots/17.png)
+![MM Screenshot](./static/images/screenshots/18.png)
+![MM Screenshot](./static/images/screenshots/19.png)
+![MM Screenshot](./static/images/screenshots/20.png)
 
 
 

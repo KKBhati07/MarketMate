@@ -18,17 +18,14 @@
 {% block content %}
 {% load currency_filter %}
     <div class="root">
-        <p hidden class="get-id" id="{{data.item.id}}" ></p>
+        <p hidden class="get-id" id="{{data.item.id}}"></p>
         <!-- ---------------------IMAGES------------------- -->
         <div class="images-container hover-image">
 
             <div class="zoom" >
-
-                {% comment %} <button id="prevBtn">Previous</button> {% endcomment %}
                 <div class="original" >
                     
                     <img id="target" class="carousel-image" src="" alt="" >
-                    <!-- <img id="carousel-image" src="" alt="" > -->
                 </div>
                 
                 <div class="viewer">
@@ -39,7 +36,6 @@
                 <div class="magnifier"></div>
             </div>
             <img class="prev-btn" src="{% static "/images/icons/prev.png" %}" alt="">
-            {% comment %} <button id="nextBtn">Next</button> {% endcomment %}
             <img class="next-btn" src="{% static "/images/icons/next.png" %}" alt="">
             
             
@@ -60,7 +56,7 @@
             <a class="unlist-item" href="{% url "listing_delete_item" id=data.item.id %}"><strong>Unlist Item</strong></a>
             {% else %}
             <p id="listed-by"  > Listed By: <strong><a href="{% url "user_other_profile" id=data.item.user_id %}"> {{data.listed_by.name}} </a></strong> </p>
-            <p id="interested" >Interested? <strong class="notify-user" id="{{data.item.id}}" >NOTIFY USER</strong> </p>
+            <p id="interested" >Interested? <strong class="notify-user" id="{{data.item.id}}" >NOTIFY USER</strong> | <strong class="chat-user" id="{{data.item.user_id}}" >CHAT</strong> </p>
 
             
             {% endif %}
@@ -70,7 +66,7 @@
     </div>
     <div class="large-image-container" >
             
-        <img class="close-btn" src="{% static "/images/icons/close-white.png" %}" alt="">
+        <img class="img-close-btn" src="{% static "/images/icons/close-white.png" %}" alt="">
         <img id="large-image" src="" alt="">
         <img class="prev-btn" src="{% static "/images/icons/prev-white.png" %}" alt="">
         <img class="next-btn" src="{% static "/images/icons/next-white.png" %}" alt="">

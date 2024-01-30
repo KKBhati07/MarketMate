@@ -22,6 +22,12 @@
     <link rel="stylesheet" href="{% static "/css/base.css" %}">
     <script src="{% static "/js/base.js" %}"></script>
 
+    {% comment %} FOR CHAT ROOMS {% endcomment %}
+    <link rel="stylesheet" href="{% static "/css/chatrooms.css" %}">
+    <script defer src="{% static "/js/chat_engine.js" %}"></script>
+    {% comment %} FOR CHATBOX {% endcomment %}
+    <link rel="stylesheet" href="{% static "/css/chatbox.css" %}">
+
     {% comment %} view specific static files {% endcomment %}
     {% block static  %}
     
@@ -37,11 +43,13 @@
 </head>
 <body>
     {% include "header.html" %}
-
+    {% include "chatrooms.html" %}
+    
     {% block content  %}
     
     {% endblock content  %}
-
+    
+    {% include "chatbox.html" %}
     <script>
         
         {% for message in messages %}

@@ -15,7 +15,6 @@
     display: flex;
     padding-left: 20px;
     padding-top: 20px;
-    /* position: relative; */
 }
 
 
@@ -124,9 +123,6 @@
     top: 0;
     left: 0;
 }
-
-
-
 .magnifier,
 .viewer {
     display: none;
@@ -156,17 +152,12 @@
     transition: opacity 0.3s ease-in-out;
 }
 
-.close-btn {
+.img-close-btn {
     position: absolute;
     right: 10px;
     top: 10px;
     width: 30px;
 }
-
-
-
-
-
 /* --------------------DETAILS CONTAINER------------ */
 .details-container {
     margin-left: 10px;

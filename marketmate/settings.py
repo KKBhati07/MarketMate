@@ -68,6 +68,7 @@ SIMPLE_JWT = {
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,13 +79,14 @@ INSTALLED_APPS = [
 
 
 EXTERNAL_APPS = [
+    "channels",
     "users",
     "listings",
     "rest_framework",
     "api",
     "rest_framework_simplejwt",
     "corsheaders",
-
+    "chat",
 ]
 
 INSTALLED_APPS+=EXTERNAL_APPS
@@ -131,7 +133,18 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'marketmate.wsgi.application'
+# WSGI_APPLICATION = 'marketmate.wsgi.application'
+ASGI_APPLICATION = 'marketmate.asgi.application'
+
+# using redis for the chanel layer
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 DATABASES = {
     'default': {
